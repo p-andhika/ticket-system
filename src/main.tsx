@@ -21,11 +21,12 @@ const queryClient = new QueryClient({
 // Set up a Router instance
 const router = createRouter({
   routeTree,
-  context: { queryClient },
+  context: { auth: null, queryClient },
   defaultPreload: "intent",
   // Since we're using React Query, we don't want loader calls to ever be stale
   // This will ensure that the loader is always called when the route is preloaded or visited
   defaultPreloadStaleTime: 0,
+  defaultStructuralSharing: true,
   scrollRestoration: true,
 });
 
@@ -36,15 +37,22 @@ declare module "@tanstack/react-router" {
   }
 }
 
+function App() {
+  const session = useAuth();
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} context={{ auth: session }} />
+    </QueryClientProvider>
+  );
+}
+
 const rootElement = document.getElementById("root")!;
 
-if (!rootElement.innerHTML) {
+if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
+      <App />
     </StrictMode>,
   );
 }
