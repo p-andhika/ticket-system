@@ -4,6 +4,7 @@ import { StrictMode } from "react";
 import { routeTree } from "./routeTree.gen";
 import "./index.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useAuth } from "./hooks/use-auth";
 
 const queryClient = new QueryClient({
   defaultOptions: {
