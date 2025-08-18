@@ -18,10 +18,14 @@ function RouteComponent() {
       password: formData.get("password"),
     };
 
-    const { data: sessionData } = await supabase.auth.signInWithPassword({
-      email: data.email as string,
-      password: data.password as string,
-    });
+    const { data: sessionData, error } = await supabase.auth.signInWithPassword(
+      {
+        email: data.email as string,
+        password: data.password as string,
+      },
+    );
+
+    console.log(error);
 
     if (sessionData.session?.user.id) {
       navigate({ to: "/" });
