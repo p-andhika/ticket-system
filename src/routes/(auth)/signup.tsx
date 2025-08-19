@@ -8,13 +8,38 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import supabase from "@/lib/supabase/supabase-client";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import type { FormEvent } from "react";
 
 export const Route = createFileRoute("/(auth)/signup")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const navigate = useNavigate({ from: "/signup" });
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      email: formData.get("email"),
+      password: formData.get("password"),
+    };
+
+    const { data: sessionData, error } = await supabase.auth.signUp({
+      email: data.email as string,
+      password: data.password as string,
+    });
+
+    console.log({ error, sessionData });
+
+    if (sessionData.user) {
+      navigate({ to: "/signin" });
+    }
+  };
+
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm">
@@ -26,7 +51,7 @@ function RouteComponent() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="flex flex-col gap-6">
                 <div className="grid gap-3">
                   <Label htmlFor="email">Email</Label>
