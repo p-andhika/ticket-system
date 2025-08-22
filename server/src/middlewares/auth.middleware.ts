@@ -1,3 +1,4 @@
+import zEnv from "@/env";
 import { createServerClient, parseCookieHeader } from "@supabase/ssr";
 import { SupabaseClient } from "@supabase/supabase-js";
 import type { Context, MiddlewareHandler } from "hono";
@@ -22,10 +23,9 @@ type SupabaseEnv = {
 export const supabaseMiddleware = (): MiddlewareHandler => {
   return async (c, next) => {
     const supabaseEnv = env<SupabaseEnv>(c);
-    const supabaseUrl =
-      supabaseEnv.HONO_SUPABASE_URL ?? process.env.HONO_SUPABASE_URL;
+    const supabaseUrl = supabaseEnv.HONO_SUPABASE_URL ?? zEnv.HONO_SUPABASE_URL;
     const supabasePublishableKey =
-      supabaseEnv.HONO_SUPABASE_KEY ?? process.env.HONO_SUPABASE_KEY;
+      supabaseEnv.HONO_SUPABASE_KEY ?? zEnv.HONO_SUPABASE_KEY;
 
     if (!supabaseUrl) {
       throw new Error("SUPABASE_URL missing!");
