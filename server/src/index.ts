@@ -1,14 +1,20 @@
-import { supabaseMiddleware } from "@/middleware/auth.middleware";
+import { supabaseMiddleware } from "@/middlewares/auth.middleware";
+import { logger } from "@/middlewares/logger.middleware";
 import { authRoute } from "@/routes/auth";
 import "@dotenvx/dotenvx/config";
 import { Hono } from "hono";
+import { PinoLogger } from "hono-pino";
 import { cors } from "hono/cors";
-import { logger } from "hono/logger";
 import { notFound, onError } from "stoker/middlewares";
 
-const app = new Hono();
+interface AppBindings {
+  Variables: {
+    logger: PinoLogger;
+  };
+}
 
-app.use(logger());
+const app = new Hono<AppBindings>();
+
 app.use(
   "*",
   cors({
@@ -17,6 +23,11 @@ app.use(
   }),
 );
 app.use("*", supabaseMiddleware());
+app.use(logger());
+
+app.get("/error", () => {
+  throw new Error("Something went wrong!");
+});
 
 app.route("/api/v1/auth", authRoute);
 
