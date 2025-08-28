@@ -4,6 +4,7 @@ import { defineConfig } from "vite";
 import build from "@hono/vite-build/node";
 import path from "path";
 
+// @ts-ignore
 export default defineConfig(() => {
   return {
     server: {
