@@ -14,9 +14,10 @@ import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/
 import { Route as authSignupRouteImport } from './routes/(auth)/signup'
 import { Route as authSigninRouteImport } from './routes/(auth)/signin'
 import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-password'
-import { Route as AuthenticatedTodosIndexRouteImport } from './routes/_authenticated/todos/index'
+import { Route as AuthenticatedUserIndexRouteImport } from './routes/_authenticated/user/index'
+import { Route as AuthenticatedTodoIndexRouteImport } from './routes/_authenticated/todo/index'
 import { Route as AuthenticatedTicketIndexRouteImport } from './routes/_authenticated/ticket/index'
-import { Route as AuthenticatedPostsIndexRouteImport } from './routes/_authenticated/posts/index'
+import { Route as AuthenticatedPostIndexRouteImport } from './routes/_authenticated/post/index'
 
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
@@ -42,9 +43,14 @@ const authForgotPasswordRoute = authForgotPasswordRouteImport.update({
   path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedTodosIndexRoute = AuthenticatedTodosIndexRouteImport.update({
-  id: '/todos/',
-  path: '/todos/',
+const AuthenticatedUserIndexRoute = AuthenticatedUserIndexRouteImport.update({
+  id: '/user/',
+  path: '/user/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedTodoIndexRoute = AuthenticatedTodoIndexRouteImport.update({
+  id: '/todo/',
+  path: '/todo/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedTicketIndexRoute =
@@ -53,9 +59,9 @@ const AuthenticatedTicketIndexRoute =
     path: '/ticket/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedPostsIndexRoute = AuthenticatedPostsIndexRouteImport.update({
-  id: '/posts/',
-  path: '/posts/',
+const AuthenticatedPostIndexRoute = AuthenticatedPostIndexRouteImport.update({
+  id: '/post/',
+  path: '/post/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 
@@ -64,18 +70,20 @@ export interface FileRoutesByFullPath {
   '/signin': typeof authSigninRoute
   '/signup': typeof authSignupRoute
   '/': typeof AuthenticatedIndexRoute
-  '/posts': typeof AuthenticatedPostsIndexRoute
+  '/post': typeof AuthenticatedPostIndexRoute
   '/ticket': typeof AuthenticatedTicketIndexRoute
-  '/todos': typeof AuthenticatedTodosIndexRoute
+  '/todo': typeof AuthenticatedTodoIndexRoute
+  '/user': typeof AuthenticatedUserIndexRoute
 }
 export interface FileRoutesByTo {
   '/forgot-password': typeof authForgotPasswordRoute
   '/signin': typeof authSigninRoute
   '/signup': typeof authSignupRoute
   '/': typeof AuthenticatedIndexRoute
-  '/posts': typeof AuthenticatedPostsIndexRoute
+  '/post': typeof AuthenticatedPostIndexRoute
   '/ticket': typeof AuthenticatedTicketIndexRoute
-  '/todos': typeof AuthenticatedTodosIndexRoute
+  '/todo': typeof AuthenticatedTodoIndexRoute
+  '/user': typeof AuthenticatedUserIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -84,9 +92,10 @@ export interface FileRoutesById {
   '/(auth)/signin': typeof authSigninRoute
   '/(auth)/signup': typeof authSignupRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
-  '/_authenticated/posts/': typeof AuthenticatedPostsIndexRoute
+  '/_authenticated/post/': typeof AuthenticatedPostIndexRoute
   '/_authenticated/ticket/': typeof AuthenticatedTicketIndexRoute
-  '/_authenticated/todos/': typeof AuthenticatedTodosIndexRoute
+  '/_authenticated/todo/': typeof AuthenticatedTodoIndexRoute
+  '/_authenticated/user/': typeof AuthenticatedUserIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -95,18 +104,20 @@ export interface FileRouteTypes {
     | '/signin'
     | '/signup'
     | '/'
-    | '/posts'
+    | '/post'
     | '/ticket'
-    | '/todos'
+    | '/todo'
+    | '/user'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/forgot-password'
     | '/signin'
     | '/signup'
     | '/'
-    | '/posts'
+    | '/post'
     | '/ticket'
-    | '/todos'
+    | '/todo'
+    | '/user'
   id:
     | '__root__'
     | '/_authenticated'
@@ -114,9 +125,10 @@ export interface FileRouteTypes {
     | '/(auth)/signin'
     | '/(auth)/signup'
     | '/_authenticated/'
-    | '/_authenticated/posts/'
+    | '/_authenticated/post/'
     | '/_authenticated/ticket/'
-    | '/_authenticated/todos/'
+    | '/_authenticated/todo/'
+    | '/_authenticated/user/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -163,11 +175,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/todos/': {
-      id: '/_authenticated/todos/'
-      path: '/todos'
-      fullPath: '/todos'
-      preLoaderRoute: typeof AuthenticatedTodosIndexRouteImport
+    '/_authenticated/user/': {
+      id: '/_authenticated/user/'
+      path: '/user'
+      fullPath: '/user'
+      preLoaderRoute: typeof AuthenticatedUserIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/todo/': {
+      id: '/_authenticated/todo/'
+      path: '/todo'
+      fullPath: '/todo'
+      preLoaderRoute: typeof AuthenticatedTodoIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/ticket/': {
@@ -177,11 +196,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTicketIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/posts/': {
-      id: '/_authenticated/posts/'
-      path: '/posts'
-      fullPath: '/posts'
-      preLoaderRoute: typeof AuthenticatedPostsIndexRouteImport
+    '/_authenticated/post/': {
+      id: '/_authenticated/post/'
+      path: '/post'
+      fullPath: '/post'
+      preLoaderRoute: typeof AuthenticatedPostIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
   }
@@ -189,16 +208,18 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
-  AuthenticatedPostsIndexRoute: typeof AuthenticatedPostsIndexRoute
+  AuthenticatedPostIndexRoute: typeof AuthenticatedPostIndexRoute
   AuthenticatedTicketIndexRoute: typeof AuthenticatedTicketIndexRoute
-  AuthenticatedTodosIndexRoute: typeof AuthenticatedTodosIndexRoute
+  AuthenticatedTodoIndexRoute: typeof AuthenticatedTodoIndexRoute
+  AuthenticatedUserIndexRoute: typeof AuthenticatedUserIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
-  AuthenticatedPostsIndexRoute: AuthenticatedPostsIndexRoute,
+  AuthenticatedPostIndexRoute: AuthenticatedPostIndexRoute,
   AuthenticatedTicketIndexRoute: AuthenticatedTicketIndexRoute,
-  AuthenticatedTodosIndexRoute: AuthenticatedTodosIndexRoute,
+  AuthenticatedTodoIndexRoute: AuthenticatedTodoIndexRoute,
+  AuthenticatedUserIndexRoute: AuthenticatedUserIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

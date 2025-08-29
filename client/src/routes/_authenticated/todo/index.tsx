@@ -1,22 +1,22 @@
 import { Button } from "@/components/ui/button";
-import { postsQueryOption } from "@/lib/redaxios/queryOptions/posts";
+import { todosQueryOption } from "@/lib/supabase/queryOptions/todos";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/_authenticated/posts/")({
+export const Route = createFileRoute("/_authenticated/todo/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const { data: posts, refetch } = useQuery(postsQueryOption);
+  const { data: todos, refetch } = useQuery(todosQueryOption);
 
   return (
     <div>
-      <h1>Posts</h1>
+      <h1>Todos</h1>
       <Button onClick={() => refetch()}>Re-fetch</Button>
       <ul className="list-disc">
-        {posts?.slice(0, 10)?.map((post) => {
-          return <li key={post.id}>{post.title}</li>;
+        {todos?.map((todo) => {
+          return <li key={todo.id}>{todo.name}</li>;
         })}
       </ul>
     </div>
