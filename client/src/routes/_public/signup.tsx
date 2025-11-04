@@ -13,7 +13,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { GalleryVerticalEnd } from "lucide-react";
 import type { FormEvent } from "react";
 
-export const Route = createFileRoute("/(auth)/signup")({
+export const Route = createFileRoute("/_public/signup")({
   component: RouteComponent,
 });
 
@@ -32,6 +32,12 @@ function RouteComponent() {
     const { data: sessionData, error } = await supabase.auth.signUp({
       email: data.email as string,
       password: data.password as string,
+      options: {
+        data: {
+          firstName: "John",
+          lastName: "Doe",
+        },
+      },
     });
 
     console.log({ error, sessionData });

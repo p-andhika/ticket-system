@@ -22,7 +22,7 @@ const signinSearchSchema = z.object({
   magicLink: z.boolean().default(false),
 });
 
-export const Route = createFileRoute("/(auth)/signin")({
+export const Route = createFileRoute("/_public/signin")({
   component: RouteComponent,
   validateSearch: zodValidator(signinSearchSchema),
 });
@@ -42,33 +42,33 @@ function RouteComponent() {
 
     console.log({ data });
 
-    // const response = await fetch("http://localhost:3000/api/v1/auth/signin", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
+    const response = await fetch("http://localhost:3000/api/v1/auth/signin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+      credentials: "include",
+    });
+
+    if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
+
+    const sessionData = await response.json();
+
+    console.log(sessionData);
+
+    // const { data: sessionData, error } = await supabase.auth.signInWithPassword(
+    //   {
+    //     email: data.email as string,
+    //     password: data.password as string,
     //   },
-    //   body: JSON.stringify(data),
-    //   credentials: "include",
-    // });
+    // );
+
+    // console.log(error);
     //
-    // if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
-    //
-    // const sessionData = await response.json();
-    //
-    // console.log(sessionData);
-    //
-    // // const { data: sessionData, error } = await supabase.auth.signInWithPassword(
-    // //   {
-    // //     email: data.email as string,
-    // //     password: data.password as string,
-    // //   },
-    // // );
-    //
-    // // console.log(error);
-    // //
-    // if (sessionData.data.session?.user.id) {
-    //   navigate({ to: "/" });
-    // }
+    if (sessionData.data.session?.user.id) {
+      navigate({ to: "/" });
+    }
   };
 
   const handleMagicLink = () => {
