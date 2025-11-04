@@ -2,6 +2,7 @@ import devServer from "@hono/vite-dev-server";
 import { defineConfig } from "vite";
 
 import build from "@hono/vite-build/node";
+import path from "path";
 
 export default defineConfig(() => {
   return {
@@ -16,5 +17,10 @@ export default defineConfig(() => {
         entry: "src/index.ts",
       }),
     ],
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "./src"),
+      },
+    },
   };
 });
