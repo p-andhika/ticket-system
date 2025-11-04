@@ -28,7 +28,7 @@ function RouteComponent() {
       password: formData.get("password"),
     };
 
-    const response = await fetch("http://localhost:3000/api/v1/signin", {
+    const response = await fetch("http://localhost:3000/api/v1/auth/signin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
