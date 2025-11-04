@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import supabase from "@/lib/supabase/supabase-client";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { GalleryVerticalEnd } from "lucide-react";
 import type { FormEvent } from "react";
@@ -29,16 +28,31 @@ function RouteComponent() {
       password: formData.get("password"),
     };
 
-    const { data: sessionData, error } = await supabase.auth.signInWithPassword(
-      {
-        email: data.email as string,
-        password: data.password as string,
+    const response = await fetch("http://localhost:3000/api/v1/signin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      body: JSON.stringify(data),
+      credentials: "include",
+    });
 
-    console.log(error);
+    if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
 
-    if (sessionData.session?.user.id) {
+    const sessionData = await response.json();
+
+    console.log(sessionData);
+
+    // const { data: sessionData, error } = await supabase.auth.signInWithPassword(
+    //   {
+    //     email: data.email as string,
+    //     password: data.password as string,
+    //   },
+    // );
+
+    // console.log(error);
+    //
+    if (sessionData.data.session?.user.id) {
       navigate({ to: "/" });
     }
   };
