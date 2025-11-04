@@ -1,5 +1,5 @@
+import { getSupabase } from "@/middlewares/auth.middleware";
 import { Hono } from "hono";
-import { getSupabase } from "../middleware/auth.middleware";
 
 export const authRoute = new Hono()
   .post("/signin", async (c) => {
