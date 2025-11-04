@@ -1,13 +1,10 @@
+export type { SigninCredentials } from "@/domain/auth/services/auth-validation";
+
 export type User = {
   email: string;
   id: string;
   firstName: string;
   lastName: string;
-};
-
-export type LoginCredentials = {
-  email: string;
-  password: string;
 };
 
 export type AuthSession = {

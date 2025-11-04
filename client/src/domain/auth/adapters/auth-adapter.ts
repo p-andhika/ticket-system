@@ -1,11 +1,11 @@
 import type {
   AuthSession,
-  LoginCredentials,
+  SigninCredentials,
 } from "@/domain/auth/types/auth-types";
 import type { HttpClient } from "@/lib/types/http-client";
 
 export type AuthAdapter = {
-  login(credentials: LoginCredentials): Promise<AuthSession>;
+  login(credentials: SigninCredentials): Promise<AuthSession>;
 };
 
 // Implementation.
@@ -16,7 +16,7 @@ class AuthAdapterImpl implements AuthAdapter {
     this.httpClient = httpClient;
   }
 
-  async login(credentials: LoginCredentials): Promise<AuthSession> {
+  async login(credentials: SigninCredentials): Promise<AuthSession> {
     const response = await this.httpClient.post<AuthSession>("/auth/signin", {
       email: credentials.email,
       password: credentials.password,
