@@ -1,25 +1,14 @@
-import { useAuth } from "@/hooks/use-auth";
-import { routeTree } from "@/routeTree.gen";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { RouterProvider, createRouter } from "@tanstack/react-router";
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      // With SSR, we usually want to set some default staleTime
-      // above 0 to avoid refetching immediately on the client
-      // staleTime: 60 * 1000,
-      refetchOnWindowFocus: false,
-      retry: false,
-      networkMode: "always",
-    },
-  },
-});
+import { queryClientAtom } from "@/lib/jotai/jotai-dependencies-atom";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { createRouter, RouterProvider } from "@tanstack/react-router";
+import { Provider as JotaiProvider, useAtomValue } from "jotai";
+import { useAuth } from "./hooks/use-auth";
+import { routeTree } from "./routeTree.gen";
 
 // Set up a Router instance
 const router = createRouter({
   routeTree,
-  context: { auth: null, queryClient },
+  context: { auth: undefined!, queryClient: undefined! },
   defaultPreload: "intent",
   // Since we're using React Query, we don't want loader calls to ever be stale
   // This will ensure that the loader is always called when the route is preloaded or visited
@@ -35,12 +24,22 @@ declare module "@tanstack/react-router" {
   }
 }
 
-function App() {
-  const session = useAuth();
+function AppContent() {
+  const queryClient = useAtomValue(queryClientAtom);
+  const auth = useAuth(); // TODO: I think we're not gonna need this
+
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} context={{ auth: session }} />
+      <RouterProvider router={router} context={{ auth, queryClient }} />
     </QueryClientProvider>
+  );
+}
+
+function App() {
+  return (
+    <JotaiProvider>
+      <AppContent />
+    </JotaiProvider>
   );
 }
 
