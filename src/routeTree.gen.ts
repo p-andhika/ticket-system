@@ -9,86 +9,134 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as TodosIndexRouteImport } from './routes/todos/index'
-import { Route as PostsIndexRouteImport } from './routes/posts/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as authLoginRouteImport } from './routes/(auth)/login'
+import { Route as AuthenticatedTodosIndexRouteImport } from './routes/_authenticated/todos/index'
+import { Route as AuthenticatedPostsIndexRouteImport } from './routes/_authenticated/posts/index'
 
-const IndexRoute = IndexRouteImport.update({
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const authLoginRoute = authLoginRouteImport.update({
+  id: '/(auth)/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TodosIndexRoute = TodosIndexRouteImport.update({
+const AuthenticatedTodosIndexRoute = AuthenticatedTodosIndexRouteImport.update({
   id: '/todos/',
   path: '/todos/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const PostsIndexRoute = PostsIndexRouteImport.update({
+const AuthenticatedPostsIndexRoute = AuthenticatedPostsIndexRouteImport.update({
   id: '/posts/',
   path: '/posts/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/posts': typeof PostsIndexRoute
-  '/todos': typeof TodosIndexRoute
+  '/login': typeof authLoginRoute
+  '/': typeof AuthenticatedIndexRoute
+  '/posts': typeof AuthenticatedPostsIndexRoute
+  '/todos': typeof AuthenticatedTodosIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/posts': typeof PostsIndexRoute
-  '/todos': typeof TodosIndexRoute
+  '/login': typeof authLoginRoute
+  '/': typeof AuthenticatedIndexRoute
+  '/posts': typeof AuthenticatedPostsIndexRoute
+  '/todos': typeof AuthenticatedTodosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/posts/': typeof PostsIndexRoute
-  '/todos/': typeof TodosIndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/(auth)/login': typeof authLoginRoute
+  '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/posts/': typeof AuthenticatedPostsIndexRoute
+  '/_authenticated/todos/': typeof AuthenticatedTodosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/posts' | '/todos'
+  fullPaths: '/login' | '/' | '/posts' | '/todos'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/posts' | '/todos'
-  id: '__root__' | '/' | '/posts/' | '/todos/'
+  to: '/login' | '/' | '/posts' | '/todos'
+  id:
+    | '__root__'
+    | '/_authenticated'
+    | '/(auth)/login'
+    | '/_authenticated/'
+    | '/_authenticated/posts/'
+    | '/_authenticated/todos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  PostsIndexRoute: typeof PostsIndexRoute
-  TodosIndexRoute: typeof TodosIndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  authLoginRoute: typeof authLoginRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/': {
+      id: '/_authenticated/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof AuthenticatedIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/(auth)/login': {
+      id: '/(auth)/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof authLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/todos/': {
-      id: '/todos/'
+    '/_authenticated/todos/': {
+      id: '/_authenticated/todos/'
       path: '/todos'
       fullPath: '/todos'
-      preLoaderRoute: typeof TodosIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedTodosIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/posts/': {
-      id: '/posts/'
+    '/_authenticated/posts/': {
+      id: '/_authenticated/posts/'
       path: '/posts'
       fullPath: '/posts'
-      preLoaderRoute: typeof PostsIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedPostsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedPostsIndexRoute: typeof AuthenticatedPostsIndexRoute
+  AuthenticatedTodosIndexRoute: typeof AuthenticatedTodosIndexRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedPostsIndexRoute: AuthenticatedPostsIndexRoute,
+  AuthenticatedTodosIndexRoute: AuthenticatedTodosIndexRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  PostsIndexRoute: PostsIndexRoute,
-  TodosIndexRoute: TodosIndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  authLoginRoute: authLoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
