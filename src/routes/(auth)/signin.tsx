@@ -2,12 +2,12 @@ import supabase from "@/lib/supabase/supabase-client";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import type { FormEvent } from "react";
 
-export const Route = createFileRoute("/(auth)/login")({
+export const Route = createFileRoute("/(auth)/signin")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const navigate = useNavigate({ from: "/login" });
+  const navigate = useNavigate({ from: "/signin" });
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -54,6 +54,14 @@ function RouteComponent() {
 
       <button className="mt-2" type="submit">
         Login
+      </button>
+
+      <button
+        onClick={() => {
+          navigate({ to: "/signup" });
+        }}
+      >
+        Signup
       </button>
     </form>
   );
