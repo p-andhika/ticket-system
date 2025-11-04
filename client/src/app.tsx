@@ -1,4 +1,4 @@
-import { queryClientAtom } from "@/lib/jotai/jotai-dependencies-atom";
+import { queryClientDependenciesAtom } from "@/lib/jotai/jotai-dependencies-atom";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { Provider as JotaiProvider, useAtomValue } from "jotai";
@@ -25,7 +25,7 @@ declare module "@tanstack/react-router" {
 }
 
 function AppContent() {
-  const queryClient = useAtomValue(queryClientAtom);
+  const queryClient = useAtomValue(queryClientDependenciesAtom);
   const auth = useAuth(); // TODO: I think we're not gonna need this
 
   return (

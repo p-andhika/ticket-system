@@ -6,9 +6,9 @@ import {
 } from "../factories/dependency-factory";
 
 // Query client.
-export const queryClientAtom = atom(createQueryClient());
+export const queryClientDependenciesAtom = atom(createQueryClient());
 
 // Auth
-export const authAtom = atom<AuthDependencies>(() => {
+export const authDependenciesAtom = atom<AuthDependencies>(() => {
   return createAuthDependencies();
 });
