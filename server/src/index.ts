@@ -1,8 +1,8 @@
 import createApp from "@/lib/create-app";
-import { authRoute } from "@/routes/auth.route";
+import authRoute from "@/routes/auth.route";
 
 const app = createApp();
 
-app.route("/api/v1/auth", authRoute);
+app.route("/api/v1/auth", authRoute(app));
 
 export default app;
