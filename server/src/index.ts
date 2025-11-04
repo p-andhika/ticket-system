@@ -1,5 +1,5 @@
 import createApp from "@/lib/create-app";
-import { authRoute } from "@/routes/auth";
+import { authRoute } from "@/routes/auth.route";
 
 const app = createApp();
 
