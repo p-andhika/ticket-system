@@ -1,19 +1,51 @@
-import "@dotenvx/dotenvx/config";
-import { serve } from "@hono/node-server";
 import { Hono } from "hono";
+import { getSupabase, supabaseMiddleware } from "./middleware/auth.middleware";
 
 const app = new Hono();
+app.use("*", supabaseMiddleware());
 
-app.get("/", (c) => {
-  return c.text("Hello Hono!");
+app.get("/api/user", async (c) => {
+  const supabase = getSupabase(c);
+  const { data } = await supabase.auth.getUser();
+
+  if (!data?.user) {
+    return c.json({
+      message: "You are not logged in.",
+    });
+  }
+
+  return c.json({
+    message: "You are logged in!",
+    userId: data.user,
+  });
 });
 
-serve(
-  {
-    fetch: app.fetch,
-    port: 3000,
-  },
-  (info) => {
-    console.log(`Server is running on http://localhost:${info.port}`);
-  },
-);
+app.get("/signin", async (c) => {
+  const supabase = getSupabase(c);
+  await supabase.auth.signInWithPassword({
+    email: "test@example.com",
+    password: "superman99",
+  });
+
+  return c.json({
+    message: "Signed in server-side!",
+  });
+});
+
+app.get("/signout", async (c) => {
+  const supabase = getSupabase(c);
+  await supabase.auth.signOut();
+
+  return c.json({
+    message: "Signed out server-side!",
+  });
+});
+
+app.get("/countries", async (c) => {
+  const supabase = getSupabase(c);
+  const { data, error } = await supabase.from("countries").select("*");
+  if (error) console.log(error);
+  return c.json(data);
+});
+
+export default app;
