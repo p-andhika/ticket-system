@@ -40,33 +40,35 @@ function RouteComponent() {
       password: formData.get("password"),
     };
 
-    const response = await fetch("http://localhost:3000/api/v1/auth/signin", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-      credentials: "include",
-    });
+    console.log({ data });
 
-    if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
-
-    const sessionData = await response.json();
-
-    console.log(sessionData);
-
-    // const { data: sessionData, error } = await supabase.auth.signInWithPassword(
-    //   {
-    //     email: data.email as string,
-    //     password: data.password as string,
+    // const response = await fetch("http://localhost:3000/api/v1/auth/signin", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
     //   },
-    // );
-
-    // console.log(error);
+    //   body: JSON.stringify(data),
+    //   credentials: "include",
+    // });
     //
-    if (sessionData.data.session?.user.id) {
-      navigate({ to: "/" });
-    }
+    // if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
+    //
+    // const sessionData = await response.json();
+    //
+    // console.log(sessionData);
+    //
+    // // const { data: sessionData, error } = await supabase.auth.signInWithPassword(
+    // //   {
+    // //     email: data.email as string,
+    // //     password: data.password as string,
+    // //   },
+    // // );
+    //
+    // // console.log(error);
+    // //
+    // if (sessionData.data.session?.user.id) {
+    //   navigate({ to: "/" });
+    // }
   };
 
   const handleMagicLink = () => {

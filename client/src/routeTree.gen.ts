@@ -15,6 +15,7 @@ import { Route as authSignupRouteImport } from './routes/(auth)/signup'
 import { Route as authSigninRouteImport } from './routes/(auth)/signin'
 import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-password'
 import { Route as AuthenticatedTodosIndexRouteImport } from './routes/_authenticated/todos/index'
+import { Route as AuthenticatedTicketIndexRouteImport } from './routes/_authenticated/ticket/index'
 import { Route as AuthenticatedPostsIndexRouteImport } from './routes/_authenticated/posts/index'
 
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
@@ -46,6 +47,12 @@ const AuthenticatedTodosIndexRoute = AuthenticatedTodosIndexRouteImport.update({
   path: '/todos/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedTicketIndexRoute =
+  AuthenticatedTicketIndexRouteImport.update({
+    id: '/ticket/',
+    path: '/ticket/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedPostsIndexRoute = AuthenticatedPostsIndexRouteImport.update({
   id: '/posts/',
   path: '/posts/',
@@ -58,6 +65,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof authSignupRoute
   '/': typeof AuthenticatedIndexRoute
   '/posts': typeof AuthenticatedPostsIndexRoute
+  '/ticket': typeof AuthenticatedTicketIndexRoute
   '/todos': typeof AuthenticatedTodosIndexRoute
 }
 export interface FileRoutesByTo {
@@ -66,6 +74,7 @@ export interface FileRoutesByTo {
   '/signup': typeof authSignupRoute
   '/': typeof AuthenticatedIndexRoute
   '/posts': typeof AuthenticatedPostsIndexRoute
+  '/ticket': typeof AuthenticatedTicketIndexRoute
   '/todos': typeof AuthenticatedTodosIndexRoute
 }
 export interface FileRoutesById {
@@ -76,6 +85,7 @@ export interface FileRoutesById {
   '/(auth)/signup': typeof authSignupRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/_authenticated/posts/': typeof AuthenticatedPostsIndexRoute
+  '/_authenticated/ticket/': typeof AuthenticatedTicketIndexRoute
   '/_authenticated/todos/': typeof AuthenticatedTodosIndexRoute
 }
 export interface FileRouteTypes {
@@ -86,9 +96,17 @@ export interface FileRouteTypes {
     | '/signup'
     | '/'
     | '/posts'
+    | '/ticket'
     | '/todos'
   fileRoutesByTo: FileRoutesByTo
-  to: '/forgot-password' | '/signin' | '/signup' | '/' | '/posts' | '/todos'
+  to:
+    | '/forgot-password'
+    | '/signin'
+    | '/signup'
+    | '/'
+    | '/posts'
+    | '/ticket'
+    | '/todos'
   id:
     | '__root__'
     | '/_authenticated'
@@ -97,6 +115,7 @@ export interface FileRouteTypes {
     | '/(auth)/signup'
     | '/_authenticated/'
     | '/_authenticated/posts/'
+    | '/_authenticated/ticket/'
     | '/_authenticated/todos/'
   fileRoutesById: FileRoutesById
 }
@@ -151,6 +170,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTodosIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/ticket/': {
+      id: '/_authenticated/ticket/'
+      path: '/ticket'
+      fullPath: '/ticket'
+      preLoaderRoute: typeof AuthenticatedTicketIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/posts/': {
       id: '/_authenticated/posts/'
       path: '/posts'
@@ -164,12 +190,14 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedPostsIndexRoute: typeof AuthenticatedPostsIndexRoute
+  AuthenticatedTicketIndexRoute: typeof AuthenticatedTicketIndexRoute
   AuthenticatedTodosIndexRoute: typeof AuthenticatedTodosIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedPostsIndexRoute: AuthenticatedPostsIndexRoute,
+  AuthenticatedTicketIndexRoute: AuthenticatedTicketIndexRoute,
   AuthenticatedTodosIndexRoute: AuthenticatedTodosIndexRoute,
 }
 

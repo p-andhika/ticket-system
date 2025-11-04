@@ -1,0 +1,14 @@
+{
+  "name": "ticket-system",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "pnpm --filter '*' dev",
+    "dev-client": "pnpm --filter ticket-system-client dev",
+    "dev-server": "pnpm --filter ticket-system-server dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
