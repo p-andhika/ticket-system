@@ -2,6 +2,10 @@ import {
   createAuthAdapter,
   type AuthAdapter,
 } from "@/domain/auth/adapters/auth-adapter";
+import {
+  createAuthRepository,
+  type AuthRepository,
+} from "@/domain/auth/repositories/auth-repository";
 import { QueryClient } from "@tanstack/react-query";
 import { createHttpClient } from "../adapters/fetch-http-client";
 
@@ -29,6 +33,7 @@ export const createQueryClient = (): QueryClient => {
 
 export type AuthDependencies = {
   adapter: AuthAdapter;
+  repository: AuthRepository;
 };
 
 export const createAuthDependencies = (): AuthDependencies => {
@@ -38,10 +43,16 @@ export const createAuthDependencies = (): AuthDependencies => {
     headers: { "Content-Type": "application-json" },
   });
 
-  // Create adapter (depends on HTTP client)
+  // Create adapter (depends on HTTP client).
   const adapter = createAuthAdapter(httpClient);
 
+  // Create repository (state management with Jotai).
+  const repository = createAuthRepository();
+
   return {
+    // service,
     adapter,
+    repository,
+    // useCases,
   };
 };

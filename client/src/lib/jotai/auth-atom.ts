@@ -11,5 +11,3 @@ export const isAuthenticatedAtom = atom((get) => {
   const user = get(currentUserAtom);
   return user !== null;
 });
-
-export const authLoadingAtom = atom(false);
