@@ -1,4 +1,4 @@
-import type { User } from "@supabase/supabase-js";
+import type { User } from "@/domain/auth/types/auth-types";
 import type { QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import {
@@ -9,10 +9,12 @@ import {
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import * as React from "react";
 
-export const Route = createRootRouteWithContext<{
+type RouterContext = {
   auth: User | null;
   queryClient: QueryClient;
-}>()({
+};
+
+export const Route = createRootRouteWithContext<RouterContext>()({
   component: RootComponent,
   notFoundComponent: () => {
     return (

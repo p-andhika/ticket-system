@@ -13,16 +13,24 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import supabase from "@/lib/supabase/supabase-client";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_authenticated")({
-  async beforeLoad({ context: { auth } }) {
-    if (!auth?.id) {
-      const { data } = await supabase.auth.getUser();
-      if (!data.user?.id) throw redirect({ to: "/signin" });
-      return { auth: data.user };
+  // Check authentication BEFORE loading the route
+  beforeLoad: async ({ context }) => {
+    const { auth } = context;
+
+    if (!auth || !auth.id) {
+      throw redirect({
+        to: "/signin",
+      });
     }
+
+    console.log({ AUTH: auth });
+
+    return {
+      auth,
+    };
   },
   component: RouteComponent,
 });
