@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { GalleryVerticalEnd } from "lucide-react";
 
 export const Route = createFileRoute("/(auth)/signin")({
   component: RouteComponent,
@@ -44,7 +45,17 @@ function RouteComponent() {
 
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
-      <div className="w-full max-w-sm">
+      <div className="flex w-full max-w-sm flex-col gap-6">
+        <Link
+          to="/"
+          className="flex items-center gap-2 self-center font-medium"
+        >
+          <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
+            <GalleryVerticalEnd className="size-4" />
+          </div>
+          Acme Inc.
+        </Link>
+
         <Card>
           <CardHeader>
             <CardTitle>Login to your account</CardTitle>
