@@ -81,7 +81,7 @@ class FetchHttpClient implements HttpClient {
   }
 }
 
-// Factory function for creating the http-client.
+// Factory function.
 export const createHttpClient = (config: HttpClientConfig): HttpClient => {
   return new FetchHttpClient(config);
 };
