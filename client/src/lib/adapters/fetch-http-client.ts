@@ -1,4 +1,5 @@
 import type {
+  ApiResponse,
   HttpClient,
   HttpClientConfig,
   HttpRequestConfig,
@@ -22,10 +23,13 @@ class FetchHttpClient implements HttpClient {
     url: string,
     config?: HttpRequestConfig,
   ): Promise<HttpResponse<T>> {
-    const response = await this.axiosInstance.get<T>(url, config as Options);
+    const response = await this.axiosInstance.get<ApiResponse<T>>(
+      url,
+      config as Options,
+    );
 
     return {
-      data: response.data,
+      data: response.data.data,
       status: response.status,
       headers: response.headers as unknown as Record<string, string>,
     };
@@ -36,14 +40,14 @@ class FetchHttpClient implements HttpClient {
     data?: unknown,
     config?: HttpRequestConfig,
   ): Promise<HttpResponse<T>> {
-    const response = await this.axiosInstance.post<T>(
+    const response = await this.axiosInstance.post<ApiResponse<T>>(
       url,
       data,
       config as Options,
     );
 
     return {
-      data: response.data,
+      data: response.data.data,
       status: response.status,
       headers: response.headers as unknown as Record<string, string>,
     };
@@ -54,14 +58,14 @@ class FetchHttpClient implements HttpClient {
     data?: unknown,
     config?: HttpRequestConfig,
   ): Promise<HttpResponse<T>> {
-    const response = await this.axiosInstance.put<T>(
+    const response = await this.axiosInstance.put<ApiResponse<T>>(
       url,
       data,
       config as Options,
     );
 
     return {
-      data: response.data,
+      data: response.data.data,
       status: response.status,
       headers: response.headers as unknown as Record<string, string>,
     };
@@ -71,10 +75,13 @@ class FetchHttpClient implements HttpClient {
     url: string,
     config?: HttpRequestConfig,
   ): Promise<HttpResponse<T>> {
-    const response = await this.axiosInstance.delete<T>(url, config as Options);
+    const response = await this.axiosInstance.delete<ApiResponse<T>>(
+      url,
+      config as Options,
+    );
 
     return {
-      data: response.data,
+      data: response.data.data,
       status: response.status,
       headers: response.headers as unknown as Record<string, string>,
     };

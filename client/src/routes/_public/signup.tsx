@@ -40,8 +40,6 @@ function RouteComponent() {
       },
     });
 
-    console.log({ error, sessionData });
-
     if (sessionData.user) {
       navigate({ to: "/signin" });
     }

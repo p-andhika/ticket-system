@@ -2,6 +2,7 @@ import type { AuthAdapter } from "@/domain/auth/adapters/auth-adapter";
 import type { AuthRepository } from "@/domain/auth/repositories/auth-repository";
 import { signinSchema } from "@/domain/auth/services/auth-validation";
 import { useForm } from "@tanstack/react-form";
+import { useState } from "react";
 
 export const createUseSigninForm = (
   adapter: AuthAdapter,
@@ -9,23 +10,24 @@ export const createUseSigninForm = (
 ) => {
   return () => {
     const { setUser } = repository.useAuth();
+    const [submissionError, setSubmissionError] = useState<string | null>(null);
 
     const form = useForm({
       defaultValues: {
         email: "",
         password: "",
       },
+      validators: {
+        // onChange: signinSchema,
+        onSubmit: signinSchema,
+      },
       onSubmit: async ({ value }) => {
-        const validation = signinSchema.safeParse(value);
-
-        if (!validation.success) {
-          throw new Error("Validation failed!");
-        }
+        setSubmissionError(null);
 
         try {
           const session = await adapter.signin({
-            email: validation.data.email,
-            password: validation.data.password,
+            email: value.email,
+            password: value.password,
           });
 
           setUser(session.user);
@@ -33,8 +35,9 @@ export const createUseSigninForm = (
           return { success: true };
         } catch (error) {
           const errorMessage =
-            error instanceof Error ? error.message : "Signin failed";
+            error instanceof Error ? error.message : "Login failed";
 
+          setSubmissionError(errorMessage);
           throw new Error(errorMessage);
         }
       },
@@ -43,8 +46,7 @@ export const createUseSigninForm = (
     return {
       form,
       isSubmitting: form.state.isSubmitting,
-      error:
-        form.state.errors.length > 0 ? "Please fix validation errors" : null,
+      error: submissionError,
     };
   };
 };

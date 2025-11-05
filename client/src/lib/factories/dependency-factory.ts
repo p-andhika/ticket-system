@@ -6,6 +6,10 @@ import {
   createAuthRepository,
   type AuthRepository,
 } from "@/domain/auth/repositories/auth-repository";
+import {
+  createUseSigninForm,
+  type UseSigninForm,
+} from "@/domain/auth/use-cases/useSigninForm";
 import { QueryClient } from "@tanstack/react-query";
 import { createHttpClient } from "../adapters/fetch-http-client";
 
@@ -34,6 +38,9 @@ export const createQueryClient = (): QueryClient => {
 export type AuthDependencies = {
   adapter: AuthAdapter;
   repository: AuthRepository;
+  useCases: {
+    useSigninForm: UseSigninForm;
+  };
 };
 
 export const createAuthDependencies = (): AuthDependencies => {
@@ -49,10 +56,15 @@ export const createAuthDependencies = (): AuthDependencies => {
   // Create repository (state management with Jotai).
   const repository = createAuthRepository();
 
+  // Create use cases (orchestration).
+  const useSigninForm = createUseSigninForm(adapter, repository);
+
   return {
     // service,
     adapter,
     repository,
-    // useCases,
+    useCases: {
+      useSigninForm,
+    },
   };
 };

@@ -22,7 +22,12 @@ class AuthAdapterImpl implements AuthAdapter {
       password: credentials.password,
     });
 
-    return response.data;
+    return {
+      user: response.data.user,
+      accessToken: response.data.accessToken,
+      expiresAt: response.data.expiresAt,
+      refreshToken: response.data.refreshToken,
+    };
   }
 }
 

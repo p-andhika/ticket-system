@@ -26,8 +26,6 @@ export const Route = createFileRoute("/_authenticated")({
       });
     }
 
-    console.log({ AUTH: auth });
-
     return {
       auth,
     };
