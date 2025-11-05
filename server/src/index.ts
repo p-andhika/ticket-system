@@ -6,6 +6,7 @@ const app = createApp();
 const authRoute = generateAuthRoute(app);
 // const userRoute = generateUserRoute(app);
 
-app.route("/api/v1/auth", authRoute);
+const apiRoutes = app.basePath("/api/v1").route("/api/v1/auth", authRoute);
 
 export default app;
+export type ApiRoutes = typeof apiRoutes;
