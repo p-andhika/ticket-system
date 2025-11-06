@@ -3,6 +3,17 @@ import { getSupabase } from "@/middlewares/auth.middleware";
 
 export default function authRoute(app: AppApi) {
   app
+    .post("/signup", async (c) => {
+      const body = await c.req.json();
+      const supabase = getSupabase(c);
+      const response = await supabase.auth.signUp({
+        email: body.email,
+        password: body.password,
+      });
+
+      return c.json(response);
+    })
+
     .post("/signin", async (c) => {
       const body = await c.req.json();
       const supabase = getSupabase(c);

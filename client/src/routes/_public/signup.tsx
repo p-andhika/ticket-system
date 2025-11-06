@@ -32,12 +32,12 @@ function RouteComponent() {
     const { data: sessionData, error } = await supabase.auth.signUp({
       email: data.email as string,
       password: data.password as string,
-      options: {
-        data: {
-          firstName: "John",
-          lastName: "Doe",
-        },
-      },
+      // options: {
+      //   data: {
+      //     firstName: "John",
+      //     lastName: "Doe",
+      //   },
+      // },
     });
 
     if (sessionData.user) {
