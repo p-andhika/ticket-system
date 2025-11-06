@@ -1,15 +1,10 @@
 import type { AuthAdapter } from "@/domain/auth/adapters/auth-adapter";
-import type { AuthRepository } from "@/domain/auth/repositories/auth-repository";
-import { signinSchema } from "@/domain/auth/services/auth-validation";
+import { signupSchema } from "@/domain/auth/services/auth-validation";
 import { useForm } from "@tanstack/react-form";
 import { useState } from "react";
 
-export const createUseSigninForm = (
-  adapter: AuthAdapter,
-  repository: AuthRepository,
-) => {
+export const createUseSignupForm = (adapter: AuthAdapter) => {
   return () => {
-    const { setUser } = repository.useAuth();
     const [submissionError, setSubmissionError] = useState<string | null>(null);
 
     const form = useForm({
@@ -18,26 +13,22 @@ export const createUseSigninForm = (
         password: "",
       },
       validators: {
-        // onChange: signinSchema,
-        onSubmit: signinSchema,
+        onSubmit: signupSchema,
       },
       onSubmit: async ({ value }) => {
         setSubmissionError(null);
 
         try {
-          const session = await adapter.signin({
+          await adapter.signup({
             email: value.email,
             password: value.password,
           });
 
-          setUser(session.user);
-
           return { success: true };
         } catch (error) {
           const errorMessage =
-            error instanceof Error ? error.message : "Signin failed";
+            error instanceof Error ? error.message : "Signup failed!";
 
-          setSubmissionError(errorMessage);
           throw new Error(errorMessage);
         }
       },
@@ -51,4 +42,4 @@ export const createUseSigninForm = (
   };
 };
 
-export type UseSigninForm = ReturnType<typeof createUseSigninForm>;
+export type UseSignupForm = ReturnType<typeof createUseSignupForm>;

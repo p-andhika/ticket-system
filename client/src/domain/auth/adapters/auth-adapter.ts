@@ -1,12 +1,16 @@
 import type {
-  AuthSession,
   SigninCredentials,
+  SigninResponse,
+  SignoutResponse,
+  SignupCredentials,
+  User,
 } from "@/domain/auth/types/auth-types";
 import type { HttpClient } from "@/lib/types/http-client";
 
 export type AuthAdapter = {
-  signin(credentials: SigninCredentials): Promise<AuthSession>;
-  signout(): Promise<unknown>;
+  signup(credentials: SignupCredentials): Promise<User>;
+  signin(credentials: SigninCredentials): Promise<SigninResponse>;
+  signout(): Promise<SignoutResponse>;
 };
 
 // Implementation.
@@ -17,11 +21,26 @@ class AuthAdapterImpl implements AuthAdapter {
     this.httpClient = httpClient;
   }
 
-  async signin(credentials: SigninCredentials): Promise<AuthSession> {
-    const response = await this.httpClient.post<AuthSession>("/auth/signin", {
+  async signup(credentials: SignupCredentials): Promise<User> {
+    const response = await this.httpClient.post<User>("/auth/signup", {
       email: credentials.email,
       password: credentials.password,
     });
+
+    return {
+      id: response.data.id,
+      email: response.data.email,
+    };
+  }
+
+  async signin(credentials: SigninCredentials): Promise<SigninResponse> {
+    const response = await this.httpClient.post<SigninResponse>(
+      "/auth/signin",
+      {
+        email: credentials.email,
+        password: credentials.password,
+      },
+    );
 
     return {
       user: response.data.user,
@@ -31,11 +50,12 @@ class AuthAdapterImpl implements AuthAdapter {
     };
   }
 
-  async signout() {
-    const response = await this.httpClient.post("/auth/signout");
+  async signout(): Promise<SignoutResponse> {
+    const response =
+      await this.httpClient.post<SignoutResponse>("/auth/signout");
 
     return {
-      message: response.data,
+      message: response.data.message,
     };
   }
 }

@@ -83,6 +83,7 @@ export const SigninPage = ({ useSigninForm, onSigninSuccess }: Props) => {
                             value={field.state.value}
                             aria-invalid={isInvalid}
                             autoComplete="off"
+                            type={field.name}
                             onChange={(e) => field.handleChange(e.target.value)}
                             onBlur={field.handleBlur}
                             placeholder="name@example.com"
@@ -153,7 +154,7 @@ export const SigninPage = ({ useSigninForm, onSigninSuccess }: Props) => {
                     type="submit"
                     disabled={isSubmitting}
                   >
-                    {isSubmitting ? "Login in..." : "Login"}
+                    {isSubmitting ? "Signin in..." : "Login"}
                   </Button>
 
                   {/* <Button variant="outline" className="w-full"> */}
