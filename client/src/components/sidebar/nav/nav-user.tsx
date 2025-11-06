@@ -25,8 +25,9 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import supabase from "@/lib/supabase/supabase-client";
+import { authDependenciesAtom } from "@/lib/jotai/jotai-dependencies-atom";
 import { useNavigate } from "@tanstack/react-router";
+import { useAtomValue } from "jotai";
 
 export function NavUser({
   user,
@@ -37,15 +38,19 @@ export function NavUser({
     avatar: string;
   };
 }) {
+  const authDeps = useAtomValue(authDependenciesAtom);
+  const { useSignout } = authDeps.useCases;
+  const { signout } = useSignout();
+
   const { isMobile } = useSidebar();
   const navigate = useNavigate({ from: "/" });
 
   const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut({ scope: "global" });
-
-    if (error) {
-      throw Error("Something went wrong!");
-    } else {
+    try {
+      await signout();
+    } catch (error) {
+      console.log(error);
+    } finally {
       navigate({ to: "/signin" });
     }
   };

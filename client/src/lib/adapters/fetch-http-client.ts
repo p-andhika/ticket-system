@@ -16,6 +16,7 @@ class FetchHttpClient implements HttpClient {
       headers: config.headers || {
         "Content-Type": "application/json",
       },
+      withCredentials: true, // Enable sending cookies cross-origin
     });
   }
 

@@ -6,6 +6,7 @@ import type { HttpClient } from "@/lib/types/http-client";
 
 export type AuthAdapter = {
   signin(credentials: SigninCredentials): Promise<AuthSession>;
+  signout(): Promise<unknown>;
 };
 
 // Implementation.
@@ -27,6 +28,14 @@ class AuthAdapterImpl implements AuthAdapter {
       accessToken: response.data.accessToken,
       expiresAt: response.data.expiresAt,
       refreshToken: response.data.refreshToken,
+    };
+  }
+
+  async signout() {
+    const response = await this.httpClient.post("/auth/signout");
+
+    return {
+      message: response.data,
     };
   }
 }

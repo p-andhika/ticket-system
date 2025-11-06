@@ -15,6 +15,9 @@ export default function createApp() {
     cors({
       origin: "http://localhost:5173",
       credentials: true,
+      // allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      // allowHeaders: ["Content-Type", "Authorization"],
+      // exposeHeaders: ["Set-Cookie"],
     }),
   );
   app.use("*", supabaseMiddleware());

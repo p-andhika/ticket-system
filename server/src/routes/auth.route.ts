@@ -14,12 +14,14 @@ export default function authRoute(app: AppApi) {
       return c.json(response);
     })
 
-    .get("/signout", async (c) => {
+    .post("/signout", async (c) => {
       const supabase = getSupabase(c);
       await supabase.auth.signOut();
 
       return c.json({
-        message: "Signed out server-side!",
+        data: {
+          message: "Signed out server-side!",
+        },
       });
     })
 

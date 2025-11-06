@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import type { UseSigninForm } from "@/domain/auth/use-cases/useSigninForm";
+import type { UseSigninForm } from "@/domain/auth/use-cases/use-signin-form";
 import { Link } from "@tanstack/react-router";
 import {
   GalleryVerticalEnd,

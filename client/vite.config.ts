@@ -18,4 +18,14 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  server: {
+    proxy: {
+      // Proxy API requests to your Hono backend
+      "/api/v1": {
+        target: "http://localhost:3000", // Change this to your Hono server port
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
 });

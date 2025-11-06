@@ -9,7 +9,11 @@ import {
 import {
   createUseSigninForm,
   type UseSigninForm,
-} from "@/domain/auth/use-cases/useSigninForm";
+} from "@/domain/auth/use-cases/use-signin-form";
+import {
+  createUseSignout,
+  type UseSignout,
+} from "@/domain/auth/use-cases/use-signout";
 import { QueryClient } from "@tanstack/react-query";
 import { createHttpClient } from "../adapters/fetch-http-client";
 
@@ -40,6 +44,7 @@ export type AuthDependencies = {
   repository: AuthRepository;
   useCases: {
     useSigninForm: UseSigninForm;
+    useSignout: UseSignout;
   };
 };
 
@@ -58,6 +63,7 @@ export const createAuthDependencies = (): AuthDependencies => {
 
   // Create use cases (orchestration).
   const useSigninForm = createUseSigninForm(adapter, repository);
+  const useSignout = createUseSignout(adapter, repository);
 
   return {
     // service,
@@ -65,6 +71,7 @@ export const createAuthDependencies = (): AuthDependencies => {
     repository,
     useCases: {
       useSigninForm,
+      useSignout,
     },
   };
 };
