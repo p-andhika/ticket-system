@@ -1,9 +1,17 @@
+export type ErrorResponse = null | {
+  name?: string;
+  status?: number;
+  code?: string;
+};
+
 export type ApiResponse<T> = {
   data: T;
+  error: ErrorResponse;
 };
 
 export type HttpResponse<T> = {
   data: T;
+  error: ErrorResponse;
   status: number;
   headers: Record<string, string>;
 };

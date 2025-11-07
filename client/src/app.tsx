@@ -6,6 +6,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { Provider as JotaiProvider, useAtomValue } from "jotai";
 import { useEffect } from "react";
+import { Toaster } from "./components/ui/sonner";
 import { routeTree } from "./routeTree.gen";
 
 // Set up a Router instance.
@@ -55,6 +56,8 @@ function App() {
   return (
     <JotaiProvider>
       <AppContent />
+
+      <Toaster richColors expand />
     </JotaiProvider>
   );
 }

@@ -2,6 +2,7 @@ import type { AuthAdapter } from "@/domain/auth/adapters/auth-adapter";
 import { signupSchema } from "@/domain/auth/services/auth-validation";
 import { useForm } from "@tanstack/react-form";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export const createUseSignupForm = (adapter: AuthAdapter) => {
   return () => {
@@ -29,6 +30,7 @@ export const createUseSignupForm = (adapter: AuthAdapter) => {
           const errorMessage =
             error instanceof Error ? error.message : "Signup failed!";
 
+          toast.error(errorMessage);
           throw new Error(errorMessage);
         }
       },

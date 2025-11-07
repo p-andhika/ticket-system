@@ -31,6 +31,7 @@ class FetchHttpClient implements HttpClient {
 
     return {
       data: response.data.data,
+      error: response.data.error,
       status: response.status,
       headers: response.headers as unknown as Record<string, string>,
     };
@@ -49,6 +50,7 @@ class FetchHttpClient implements HttpClient {
 
     return {
       data: response.data.data,
+      error: response.data.error,
       status: response.status,
       headers: response.headers as unknown as Record<string, string>,
     };
@@ -67,6 +69,7 @@ class FetchHttpClient implements HttpClient {
 
     return {
       data: response.data.data,
+      error: response.data.error,
       status: response.status,
       headers: response.headers as unknown as Record<string, string>,
     };
@@ -83,6 +86,7 @@ class FetchHttpClient implements HttpClient {
 
     return {
       data: response.data.data,
+      error: response.data.error,
       status: response.status,
       headers: response.headers as unknown as Record<string, string>,
     };

@@ -27,6 +27,10 @@ class AuthAdapterImpl implements AuthAdapter {
       password: credentials.password,
     });
 
+    if (response.error?.status) {
+      throw new Error(response.error.code);
+    }
+
     return {
       id: response.data.id,
       email: response.data.email,
