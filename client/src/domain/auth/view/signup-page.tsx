@@ -12,13 +12,14 @@ import type { UseSignupForm } from "@/domain/auth/use-cases/use-signup-form";
 import { Link } from "@tanstack/react-router";
 import { GalleryVerticalEnd } from "lucide-react";
 import type { FormEvent } from "react";
+import { toast } from "sonner";
 
 type Props = {
   useSignupForm: UseSignupForm;
   onSignupSuccess: () => void;
 };
 
-export const SignoutPage = ({ useSignupForm, onSignupSuccess }: Props) => {
+export const SignupPage = ({ useSignupForm, onSignupSuccess }: Props) => {
   const { form, isSubmitting, error } = useSignupForm();
 
   const handleSubmit = async (e: FormEvent) => {
@@ -30,7 +31,10 @@ export const SignoutPage = ({ useSignupForm, onSignupSuccess }: Props) => {
       if (onSignupSuccess && !form.state.errors.length) {
         onSignupSuccess();
       }
+
+      toast.success("Signup success!");
     } catch (error) {
+      toast.error(String(error));
       console.error(error);
     }
   };

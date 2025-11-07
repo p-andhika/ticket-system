@@ -3,8 +3,10 @@ import type {
   SigninResponse,
   SignoutResponse,
   SignupCredentials,
+  SignupResponse,
   User,
 } from "@/domain/auth/types/auth-types";
+import { requestApiData } from "@/lib/adapters/api-error-handler";
 import type { HttpClient } from "@/lib/types/http-client";
 
 export type AuthAdapter = {
@@ -22,18 +24,18 @@ class AuthAdapterImpl implements AuthAdapter {
   }
 
   async signup(credentials: SignupCredentials): Promise<User> {
-    const response = await this.httpClient.post<User>("/auth/signup", {
-      email: credentials.email,
-      password: credentials.password,
-    });
-
-    if (response.error?.status) {
-      throw new Error(response.error.code);
-    }
+    const response = await requestApiData<SignupResponse>(
+      () =>
+        this.httpClient.post<SignupResponse>("/auth/signup", {
+          email: credentials.email,
+          password: credentials.password,
+        }),
+      "Signup failed!",
+    );
 
     return {
-      id: response.data.id,
-      email: response.data.email,
+      id: response.user.id,
+      email: response.user.email,
     };
   }
 

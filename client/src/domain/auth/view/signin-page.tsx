@@ -16,6 +16,7 @@ import {
   WandSparkles,
 } from "lucide-react";
 import { useState, type FormEvent } from "react";
+import { toast } from "sonner";
 
 type Props = {
   useSigninForm: UseSigninForm;
@@ -40,7 +41,10 @@ export const SigninPage = ({ useSigninForm, onSigninSuccess }: Props) => {
       if (onSigninSuccess && !form.state.errors.length) {
         onSigninSuccess();
       }
+
+      toast.success("Signin in success!");
     } catch (error) {
+      toast.error(String(error));
       console.error(error);
     }
   };

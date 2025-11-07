@@ -1,4 +1,4 @@
-import { SignoutPage } from "@/domain/auth/view/signup-page";
+import { SignupPage } from "@/domain/auth/view/signup-page";
 import { authDependenciesAtom } from "@/lib/jotai/jotai-dependencies-atom";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useAtomValue } from "jotai";
@@ -13,7 +13,7 @@ function RouteComponent() {
   const { useSignupForm } = authDeps.useCases;
 
   return (
-    <SignoutPage
+    <SignupPage
       useSignupForm={useSignupForm}
       onSignupSuccess={() => navigate({ to: "/signin" })}
     />

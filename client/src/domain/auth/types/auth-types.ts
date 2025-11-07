@@ -10,6 +10,10 @@ export type User = {
   // lastName: string;
 };
 
+export type SignupResponse = {
+  user: User;
+};
+
 export type SigninResponse = {
   accessToken: string;
   expiresAt: number;
