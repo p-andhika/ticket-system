@@ -4,7 +4,7 @@ import { signinSchema } from "@/domain/auth/services/auth-validation";
 import { useForm } from "@tanstack/react-form";
 import { useState } from "react";
 
-export const createUseSigninForm = (
+export const createUseSignInForm = (
   adapter: AuthAdapter,
   repository: AuthRepository,
 ) => {
@@ -51,4 +51,4 @@ export const createUseSigninForm = (
   };
 };
 
-export type UseSigninForm = ReturnType<typeof createUseSigninForm>;
+export type UseSignInForm = ReturnType<typeof createUseSignInForm>;

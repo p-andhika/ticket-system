@@ -8,17 +8,17 @@ export const createUseSignout = (
 ) => {
   return () => {
     const { clearAuth } = repository.useAuth();
-    const [isSigninOut, setIsSigninOut] = useState(false);
+    const [isSignInOut, setIsSignInOut] = useState(false);
 
     const signout = async () => {
-      setIsSigninOut(true);
+      setIsSignInOut(true);
 
       try {
         adapter.signout();
 
         clearAuth();
 
-        setIsSigninOut(false);
+        setIsSignInOut(false);
 
         return { success: true };
       } catch (error) {
@@ -26,7 +26,7 @@ export const createUseSignout = (
 
         clearAuth();
 
-        setIsSigninOut(false);
+        setIsSignInOut(false);
 
         return { success: true };
       }
@@ -34,7 +34,7 @@ export const createUseSignout = (
 
     return {
       signout,
-      isSigninOut,
+      isSignInOut,
     };
   };
 };

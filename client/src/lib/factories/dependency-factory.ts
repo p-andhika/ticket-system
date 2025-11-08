@@ -7,8 +7,8 @@ import {
   type AuthRepository,
 } from "@/domain/auth/repositories/auth-repository";
 import {
-  createUseSigninForm,
-  type UseSigninForm,
+  createUseSignInForm,
+  type UseSignInForm,
 } from "@/domain/auth/use-cases/use-signin-form";
 import {
   createUseSignout,
@@ -48,7 +48,7 @@ export type AuthDependencies = {
   repository: AuthRepository;
   useCases: {
     useSignupForm: UseSignupForm;
-    useSigninForm: UseSigninForm;
+    useSignInForm: UseSignInForm;
     useSignout: UseSignout;
   };
 };
@@ -68,7 +68,7 @@ export const createAuthDependencies = (): AuthDependencies => {
 
   // Create use cases (orchestration).
   const useSignupForm = createUseSignupForm(adapter);
-  const useSigninForm = createUseSigninForm(adapter, repository);
+  const useSignInForm = createUseSignInForm(adapter, repository);
   const useSignout = createUseSignout(adapter, repository);
 
   return {
@@ -77,7 +77,7 @@ export const createAuthDependencies = (): AuthDependencies => {
     repository,
     useCases: {
       useSignupForm,
-      useSigninForm,
+      useSignInForm,
       useSignout,
     },
   };

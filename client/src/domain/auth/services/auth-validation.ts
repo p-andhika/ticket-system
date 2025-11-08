@@ -23,5 +23,5 @@ export const signupSchema = z.object({
   // lastName: z.string().min(1, "Last name is required"),
 });
 
-export type SigninCredentials = z.infer<typeof signinSchema>;
+export type SignInCredentials = z.infer<typeof signinSchema>;
 export type SignupCredentials = z.infer<typeof signupSchema>;

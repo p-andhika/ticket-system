@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import type { UseSigninForm } from "@/domain/auth/use-cases/use-signin-form";
+import type { UseSignInForm } from "@/domain/auth/use-cases/use-signin-form";
 import { Link } from "@tanstack/react-router";
 import {
   GalleryVerticalEnd,
@@ -19,12 +19,12 @@ import { useState, type FormEvent } from "react";
 import { toast } from "sonner";
 
 type Props = {
-  useSigninForm: UseSigninForm;
-  onSigninSuccess: () => void;
+  useSignInForm: UseSignInForm;
+  onSignInSuccess: () => void;
 };
 
-export const SigninPage = ({ useSigninForm, onSigninSuccess }: Props) => {
-  const { form, isSubmitting, error } = useSigninForm();
+export const SignInPage = ({ useSignInForm, onSignInSuccess }: Props) => {
+  const { form, isSubmitting, error } = useSignInForm();
 
   const [useMagicLink, setUseMagicLink] = useState(false);
 
@@ -38,8 +38,8 @@ export const SigninPage = ({ useSigninForm, onSigninSuccess }: Props) => {
     try {
       await form.handleSubmit();
 
-      if (onSigninSuccess && !form.state.errors.length) {
-        onSigninSuccess();
+      if (onSignInSuccess && !form.state.errors.length) {
+        onSignInSuccess();
       }
 
       toast.success("Signin in success!");
