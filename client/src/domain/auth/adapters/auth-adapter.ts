@@ -40,19 +40,20 @@ class AuthAdapterImpl implements AuthAdapter {
   }
 
   async signin(credentials: SigninCredentials): Promise<SigninResponse> {
-    const response = await this.httpClient.post<SigninResponse>(
-      "/auth/signin",
-      {
-        email: credentials.email,
-        password: credentials.password,
-      },
+    const response = await requestApiData<SigninResponse>(
+      () =>
+        this.httpClient.post<SigninResponse>("/auth/signin", {
+          email: credentials.email,
+          password: credentials.password,
+        }),
+      "Signin failed!",
     );
 
     return {
-      user: response.data.user,
-      accessToken: response.data.accessToken,
-      expiresAt: response.data.expiresAt,
-      refreshToken: response.data.refreshToken,
+      user: response.user,
+      accessToken: response.accessToken,
+      expiresAt: response.expiresAt,
+      refreshToken: response.refreshToken,
     };
   }
 
