@@ -1,6 +1,6 @@
 export type {
-  SigninCredentials,
-  SignupCredentials,
+  SignInCredentials,
+  SignUpCredentials,
 } from "@/domain/auth/services/auth-validation";
 
 export type User = {
@@ -10,17 +10,17 @@ export type User = {
   // lastName: string;
 };
 
-export type SignupResponse = {
+export type SignUpResponse = {
   user: User;
 };
 
-export type SigninResponse = {
+export type SignInResponse = {
   accessToken: string;
   expiresAt: number;
   refreshToken: string;
   user: User;
 };
 
-export type SignoutResponse = {
+export type SignOutResponse = {
   message: string;
 };
