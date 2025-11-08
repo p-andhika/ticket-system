@@ -5,6 +5,8 @@ import { atomWithStorage } from "jotai/utils";
 export const currentUserAtom = atomWithStorage<User | null>(
   "current_user",
   null,
+  undefined,
+  { getOnInit: true },
 );
 
 export const isAuthenticatedAtom = atom((get) => {

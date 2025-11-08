@@ -5,7 +5,6 @@ import {
 import { QueryClientProvider } from "@tanstack/react-query";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { Provider as JotaiProvider, useAtomValue } from "jotai";
-import { useEffect } from "react";
 import { Toaster } from "./components/ui/sonner";
 import { routeTree } from "./routeTree.gen";
 
@@ -37,10 +36,6 @@ function AppContent() {
 
   // Create minimal session object for router context.
   const session = user ? user : null;
-
-  useEffect(() => {
-    router.invalidate();
-  }, [user]);
 
   return (
     <QueryClientProvider client={queryClient}>

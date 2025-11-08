@@ -14,6 +14,20 @@ export default function authRoute(app: AppApi) {
       return c.json(response);
     })
 
+    .post("/magic-link", async (c) => {
+      const body = await c.req.json();
+      const supabase = getSupabase(c);
+      const response = supabase.auth.signInWithOtp({
+        email: body.email,
+        options: {
+          shouldCreateUser: false,
+          emailRedirectTo: "http//:localhost:5173/todo",
+        },
+      });
+
+      return c.json(response);
+    })
+
     .post("/signin", async (c) => {
       const body = await c.req.json();
       const supabase = getSupabase(c);
