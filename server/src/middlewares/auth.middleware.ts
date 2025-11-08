@@ -20,6 +20,7 @@ export const getSupabase = (c: Context) => {
 type SupabaseEnv = {
   HONO_SUPABASE_URL: string;
   HONO_SUPABASE_KEY: string;
+  HONO_SUPABASE_ADMIN_KEY: string;
 };
 
 export const supabaseMiddleware = (): MiddlewareHandler => {
@@ -28,6 +29,8 @@ export const supabaseMiddleware = (): MiddlewareHandler => {
     const supabaseUrl = supabaseEnv.HONO_SUPABASE_URL ?? zEnv.HONO_SUPABASE_URL;
     const supabasePublishableKey =
       supabaseEnv.HONO_SUPABASE_KEY ?? zEnv.HONO_SUPABASE_KEY;
+    const supabaseSecretKey =
+      supabaseEnv.HONO_SUPABASE_ADMIN_KEY ?? zEnv.HONO_SUPABASE_ADMIN_KEY;
 
     if (!supabaseUrl) {
       throw new Error("SUPABASE_URL missing!");
@@ -37,7 +40,11 @@ export const supabaseMiddleware = (): MiddlewareHandler => {
       throw new Error("SUPABASE_KEY missing!");
     }
 
-    const supabase = createServerClient(supabaseUrl, supabasePublishableKey, {
+    if (!supabaseSecretKey) {
+      throw new Error("SUPABASE_ADMIN_KEY missing!");
+    }
+
+    const supabase = createServerClient(supabaseUrl, supabaseSecretKey, {
       cookies: {
         getAll() {
           return parseCookieHeader(c.req.header("Cookie") ?? "");

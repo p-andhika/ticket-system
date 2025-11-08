@@ -17,12 +17,26 @@ export default function authRoute(app: AppApi) {
     .post("/magic-link", async (c) => {
       const body = await c.req.json();
       const supabase = getSupabase(c);
-      const response = supabase.auth.signInWithOtp({
+      const response = await supabase.auth.admin.generateLink({
         email: body.email,
-        options: {
-          shouldCreateUser: false,
-          emailRedirectTo: "http//:localhost:5173/todo",
+        type: "magiclink",
+      });
+
+      // TODO: Use the response to create mail template
+
+      return c.json({
+        data: {
+          message: "Magic link success",
         },
+      });
+    })
+
+    .post("/verify-otp", async (c) => {
+      const body = await c.req.json();
+      const supabase = getSupabase(c);
+      const response = await supabase.auth.verifyOtp({
+        type: "magiclink",
+        token_hash: body.hashedToken,
       });
 
       return c.json(response);

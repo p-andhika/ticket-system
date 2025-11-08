@@ -1,6 +1,6 @@
+import type { AuthAdapter } from "@/domain/auth/adapters/auth-adapter";
+import type { AuthRepository } from "@/domain/auth/repositories/auth-repository";
 import { useState } from "react";
-import type { AuthAdapter } from "../adapters/auth-adapter";
-import type { AuthRepository } from "../repositories/auth-repository";
 
 export const createUseSignOut = (
   adapter: AuthAdapter,

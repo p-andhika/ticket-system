@@ -1,9 +1,9 @@
-import { atom } from "jotai";
 import {
   createAuthDependencies,
   createQueryClient,
   type AuthDependencies,
-} from "../factories/dependency-factory";
+} from "@/lib/factories/dependency-factory";
+import { atom } from "jotai";
 
 // Query client.
 export const queryClientDependenciesAtom = atom(createQueryClient());

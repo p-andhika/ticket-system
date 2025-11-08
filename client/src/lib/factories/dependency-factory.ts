@@ -7,6 +7,10 @@ import {
   type AuthRepository,
 } from "@/domain/auth/repositories/auth-repository";
 import {
+  createUseMagicLink,
+  type UseMagicLink,
+} from "@/domain/auth/use-cases/use-magic-link";
+import {
   createUseSignInForm,
   type UseSignInForm,
 } from "@/domain/auth/use-cases/use-signin-form";
@@ -18,8 +22,8 @@ import {
   createUseSignUpForm,
   type UseSignUpForm,
 } from "@/domain/auth/use-cases/use-signup-form";
+import { createHttpClient } from "@/lib/adapters/fetch-http-client";
 import { QueryClient } from "@tanstack/react-query";
-import { createHttpClient } from "../adapters/fetch-http-client";
 
 // ============================================================================
 // QUERY CLIENT (TAN STACK QUERY) DEPENDENCIES
@@ -48,6 +52,7 @@ export type AuthDependencies = {
   repository: AuthRepository;
   useCases: {
     useSignUpForm: UseSignUpForm;
+    useMagicLink: UseMagicLink;
     useSignInForm: UseSignInForm;
     useSignOut: UseSignOut;
   };
@@ -68,6 +73,7 @@ export const createAuthDependencies = (): AuthDependencies => {
 
   // Create use cases (orchestration).
   const useSignUpForm = createUseSignUpForm(adapter);
+  const useMagicLink = createUseMagicLink(adapter);
   const useSignInForm = createUseSignInForm(adapter, repository);
   const useSignOut = createUseSignOut(adapter, repository);
 
@@ -77,6 +83,7 @@ export const createAuthDependencies = (): AuthDependencies => {
     repository,
     useCases: {
       useSignUpForm,
+      useMagicLink,
       useSignInForm,
       useSignOut,
     },
