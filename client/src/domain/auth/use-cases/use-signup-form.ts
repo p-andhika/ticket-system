@@ -1,9 +1,9 @@
 import type { AuthAdapter } from "@/domain/auth/adapters/auth-adapter";
-import { signupSchema } from "@/domain/auth/services/auth-validation";
+import { signUpSchema } from "@/domain/auth/services/auth-validation";
 import { useForm } from "@tanstack/react-form";
 import { useState } from "react";
 
-export const createUseSignupForm = (adapter: AuthAdapter) => {
+export const createUseSignUpForm = (adapter: AuthAdapter) => {
   return () => {
     const [submissionError, setSubmissionError] = useState<string | null>(null);
 
@@ -13,13 +13,13 @@ export const createUseSignupForm = (adapter: AuthAdapter) => {
         password: "",
       },
       validators: {
-        onSubmit: signupSchema,
+        onSubmit: signUpSchema,
       },
       onSubmit: async ({ value }) => {
         setSubmissionError(null);
 
         try {
-          await adapter.signup({
+          await adapter.signUp({
             email: value.email,
             password: value.password,
           });
@@ -42,4 +42,4 @@ export const createUseSignupForm = (adapter: AuthAdapter) => {
   };
 };
 
-export type UseSignupForm = ReturnType<typeof createUseSignupForm>;
+export type UseSignUpForm = ReturnType<typeof createUseSignUpForm>;

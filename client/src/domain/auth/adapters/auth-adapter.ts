@@ -1,18 +1,18 @@
 import type {
   SignInCredentials,
   SignInResponse,
-  SignoutResponse,
-  SignupCredentials,
-  SignupResponse,
+  SignOutResponse,
+  SignUpCredentials,
+  SignUpResponse,
   User,
 } from "@/domain/auth/types/auth-types";
 import { requestApiData } from "@/lib/adapters/api-error-handler";
 import type { HttpClient } from "@/lib/types/http-client";
 
 export type AuthAdapter = {
-  signup(credentials: SignupCredentials): Promise<User>;
-  signin(credentials: SignInCredentials): Promise<SignInResponse>;
-  signout(): Promise<SignoutResponse>;
+  signUp(credentials: SignUpCredentials): Promise<User>;
+  signIn(credentials: SignInCredentials): Promise<SignInResponse>;
+  signOut(): Promise<SignOutResponse>;
 };
 
 // Implementation.
@@ -23,10 +23,10 @@ class AuthAdapterImpl implements AuthAdapter {
     this.httpClient = httpClient;
   }
 
-  async signup(credentials: SignupCredentials): Promise<User> {
-    const response = await requestApiData<SignupResponse>(
+  async signUp(credentials: SignUpCredentials): Promise<User> {
+    const response = await requestApiData<SignUpResponse>(
       () =>
-        this.httpClient.post<SignupResponse>("/auth/signup", {
+        this.httpClient.post<SignUpResponse>("/auth/signup", {
           email: credentials.email,
           password: credentials.password,
         }),
@@ -39,7 +39,7 @@ class AuthAdapterImpl implements AuthAdapter {
     };
   }
 
-  async signin(credentials: SignInCredentials): Promise<SignInResponse> {
+  async signIn(credentials: SignInCredentials): Promise<SignInResponse> {
     const response = await requestApiData<SignInResponse>(
       () =>
         this.httpClient.post<SignInResponse>("/auth/signin", {
@@ -57,9 +57,9 @@ class AuthAdapterImpl implements AuthAdapter {
     };
   }
 
-  async signout(): Promise<SignoutResponse> {
+  async signOut(): Promise<SignOutResponse> {
     const response =
-      await this.httpClient.post<SignoutResponse>("/auth/signout");
+      await this.httpClient.post<SignOutResponse>("/auth/signout");
 
     return {
       message: response.data.message,

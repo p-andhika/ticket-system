@@ -11,17 +11,17 @@ export const passwordSchema = z
   .regex(/[a-z]/, "Password must contain at least one lowercase letter")
   .regex(/[0-9]/, "Password must contain at least one number");
 
-export const signinSchema = z.object({
+export const signInSchema = z.object({
   email: emailSchema,
   password: z.string().min(1, "Password is required"),
 });
 
-export const signupSchema = z.object({
+export const signUpSchema = z.object({
   email: emailSchema,
   password: passwordSchema,
   // firstName: z.string().min(1, "First name is required"),
   // lastName: z.string().min(1, "Last name is required"),
 });
 
-export type SignInCredentials = z.infer<typeof signinSchema>;
-export type SignupCredentials = z.infer<typeof signupSchema>;
+export type SignInCredentials = z.infer<typeof signInSchema>;
+export type SignUpCredentials = z.infer<typeof signUpSchema>;

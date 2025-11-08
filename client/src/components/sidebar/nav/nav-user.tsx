@@ -39,15 +39,15 @@ export function NavUser({
   };
 }) {
   const authDeps = useAtomValue(authDependenciesAtom);
-  const { useSignout } = authDeps.useCases;
-  const { signout } = useSignout();
+  const { useSignOut } = authDeps.useCases;
+  const { signOut } = useSignOut();
 
   const { isMobile } = useSidebar();
   const navigate = useNavigate({ from: "/" });
 
   const handleLogout = async () => {
     try {
-      await signout();
+      await signOut();
     } catch (error) {
       console.log(error);
     } finally {

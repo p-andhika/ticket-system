@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { AuthAdapter } from "../adapters/auth-adapter";
 import type { AuthRepository } from "../repositories/auth-repository";
 
-export const createUseSignout = (
+export const createUseSignOut = (
   adapter: AuthAdapter,
   repository: AuthRepository,
 ) => {
@@ -10,11 +10,11 @@ export const createUseSignout = (
     const { clearAuth } = repository.useAuth();
     const [isSignInOut, setIsSignInOut] = useState(false);
 
-    const signout = async () => {
+    const signOut = async () => {
       setIsSignInOut(true);
 
       try {
-        adapter.signout();
+        adapter.signOut();
 
         clearAuth();
 
@@ -33,10 +33,10 @@ export const createUseSignout = (
     };
 
     return {
-      signout,
+      signOut,
       isSignInOut,
     };
   };
 };
 
-export type UseSignout = ReturnType<typeof createUseSignout>;
+export type UseSignOut = ReturnType<typeof createUseSignOut>;

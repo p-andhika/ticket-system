@@ -8,19 +8,19 @@ import {
 } from "@/components/ui/card";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import type { UseSignupForm } from "@/domain/auth/use-cases/use-signup-form";
+import type { UseSignUpForm } from "@/domain/auth/use-cases/use-signup-form";
 import { Link } from "@tanstack/react-router";
 import { GalleryVerticalEnd } from "lucide-react";
 import type { FormEvent } from "react";
 import { toast } from "sonner";
 
 type Props = {
-  useSignupForm: UseSignupForm;
-  onSignupSuccess: () => void;
+  useSignUpForm: UseSignUpForm;
+  onSignUpSuccess: () => void;
 };
 
-export const SignupPage = ({ useSignupForm, onSignupSuccess }: Props) => {
-  const { form, isSubmitting, error } = useSignupForm();
+export const SignUpPage = ({ useSignUpForm, onSignUpSuccess }: Props) => {
+  const { form, isSubmitting, error } = useSignUpForm();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -28,8 +28,8 @@ export const SignupPage = ({ useSignupForm, onSignupSuccess }: Props) => {
     try {
       await form.handleSubmit();
 
-      if (onSignupSuccess && !form.state.errors.length) {
-        onSignupSuccess();
+      if (onSignUpSuccess && !form.state.errors.length) {
+        onSignUpSuccess();
       }
 
       toast.success("Signup success!");
