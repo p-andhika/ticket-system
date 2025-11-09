@@ -1,7 +1,6 @@
 import { SignUpPage } from "@/domain/auth/view/signup-page";
-import { authDependenciesAtom } from "@/lib/jotai/jotai-dependencies-atom";
+import { useDependenciesStore } from "@/lib/zustand/dependencies-store";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useAtomValue } from "jotai";
 
 export const Route = createFileRoute("/_public/signup")({
   component: RouteComponent,
@@ -9,7 +8,7 @@ export const Route = createFileRoute("/_public/signup")({
 
 function RouteComponent() {
   const navigate = useNavigate();
-  const authDeps = useAtomValue(authDependenciesAtom);
+  const authDeps = useDependenciesStore((state) => state.authDependencies);
   const { useSignUpForm } = authDeps.useCases;
 
   return (

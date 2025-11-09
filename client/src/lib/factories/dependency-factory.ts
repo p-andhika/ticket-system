@@ -68,7 +68,7 @@ export const createAuthDependencies = (): AuthDependencies => {
   // Create adapter (depends on HTTP client).
   const adapter = createAuthAdapter(httpClient);
 
-  // Create repository (state management with Jotai).
+  // Create repository (state management using Zustand).
   const repository = createAuthRepository();
 
   // Create use cases (orchestration).
