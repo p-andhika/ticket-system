@@ -24,7 +24,7 @@ export const createUseMagicLink = (adapter: AuthAdapter) => {
             error instanceof Error ? error.message : "Magic link failed";
 
           setSubmissionError(errorMessage);
-          console.error(errorMessage);
+          throw new Error(errorMessage);
         }
       },
     });
