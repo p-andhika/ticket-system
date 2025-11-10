@@ -16,6 +16,10 @@ export const signInSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
+export const magicLinkSchema = z.object({
+  email: emailSchema,
+});
+
 export const signUpSchema = z.object({
   email: emailSchema,
   password: passwordSchema,

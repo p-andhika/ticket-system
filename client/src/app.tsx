@@ -1,11 +1,6 @@
-import {
-  authDependenciesAtom,
-  queryClientDependenciesAtom,
-} from "@/lib/jotai/jotai-dependencies-atom";
+import { useDependenciesStore } from "@/lib/zustand/dependencies-store";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
-import { Provider as JotaiProvider, useAtomValue } from "jotai";
-import { useEffect } from "react";
 import { Toaster } from "./components/ui/sonner";
 import { routeTree } from "./routeTree.gen";
 
@@ -28,9 +23,9 @@ declare module "@tanstack/react-router" {
   }
 }
 
-function AppContent() {
-  const queryClient = useAtomValue(queryClientDependenciesAtom);
-  const authDeps = useAtomValue(authDependenciesAtom);
+function App() {
+  const queryClient = useDependenciesStore((state) => state.queryClient);
+  const authDeps = useDependenciesStore((state) => state.authDependencies);
 
   // Get current user from repository.
   const { user } = authDeps.repository.useAuth();
@@ -38,27 +33,17 @@ function AppContent() {
   // Create minimal session object for router context.
   const session = user ? user : null;
 
-  useEffect(() => {
-    router.invalidate();
-  }, [user]);
-
   return (
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider
-        router={router}
-        context={{ auth: session, queryClient }}
-      />
-    </QueryClientProvider>
-  );
-}
-
-function App() {
-  return (
-    <JotaiProvider>
-      <AppContent />
+    <>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider
+          router={router}
+          context={{ auth: session, queryClient }}
+        />
+      </QueryClientProvider>
 
       <Toaster richColors expand />
-    </JotaiProvider>
+    </>
   );
 }
 

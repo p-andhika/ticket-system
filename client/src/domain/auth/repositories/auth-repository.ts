@@ -1,15 +1,12 @@
-import { currentUserAtom, isAuthenticatedAtom } from "@/lib/jotai/auth-atom";
-import { useAtom, useAtomValue } from "jotai";
+import { useAuthStore } from "@/lib/zustand/auth-store";
 
 export const createAuthRepository = () => {
   // Get complete auth state.
   const useAuth = () => {
-    const [user, setUser] = useAtom(currentUserAtom);
-    const isAuthenticated = useAtomValue(isAuthenticatedAtom);
-
-    const clearAuth = () => {
-      setUser(null);
-    };
+    const user = useAuthStore((state) => state.currentUser);
+    const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+    const setUser = useAuthStore((state) => state.actions.setUser);
+    const clearAuth = useAuthStore((state) => state.actions.clearAuth);
 
     return {
       user,
@@ -21,7 +18,7 @@ export const createAuthRepository = () => {
 
   // Get current user.
   const useCurrentUser = () => {
-    const user = useAtomValue(currentUserAtom);
+    const user = useAuthStore((state) => state.currentUser);
 
     return {
       user,

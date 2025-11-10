@@ -6,6 +6,7 @@ const EnvSchema = z.object({
   LOG_LEVEL: z.string().default("debug"),
   HONO_SUPABASE_URL: z.url(),
   HONO_SUPABASE_KEY: z.string(),
+  HONO_SUPABASE_ADMIN_KEY: z.string(),
 });
 
 type Env = z.infer<typeof EnvSchema>;

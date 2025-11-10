@@ -1,5 +1,3 @@
-"use client";
-
 import {
   BadgeCheck,
   Bell,
@@ -25,9 +23,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { authDependenciesAtom } from "@/lib/jotai/jotai-dependencies-atom";
+import { useDependenciesStore } from "@/lib/zustand/dependencies-store";
 import { useNavigate } from "@tanstack/react-router";
-import { useAtomValue } from "jotai";
 
 export function NavUser({
   user,
@@ -38,7 +35,7 @@ export function NavUser({
     avatar: string;
   };
 }) {
-  const authDeps = useAtomValue(authDependenciesAtom);
+  const authDeps = useDependenciesStore((state) => state.authDependencies);
   const { useSignOut } = authDeps.useCases;
   const { signOut } = useSignOut();
 
@@ -49,7 +46,7 @@ export function NavUser({
     try {
       await signOut();
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       navigate({ to: "/signin" });
     }

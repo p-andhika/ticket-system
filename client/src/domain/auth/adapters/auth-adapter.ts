@@ -11,6 +11,7 @@ import type { HttpClient } from "@/lib/types/http-client";
 
 export type AuthAdapter = {
   signUp(credentials: SignUpCredentials): Promise<User>;
+  magicLink(email: string): Promise<{ message: string }>;
   signIn(credentials: SignInCredentials): Promise<SignInResponse>;
   signOut(): Promise<SignOutResponse>;
 };
@@ -36,6 +37,20 @@ class AuthAdapterImpl implements AuthAdapter {
     return {
       id: response.user.id,
       email: response.user.email,
+    };
+  }
+
+  async magicLink(email: string): Promise<{ message: string }> {
+    const response = await requestApiData<{ message: string }>(
+      () =>
+        this.httpClient.post("/auth/magic-link", {
+          email,
+        }),
+      "Magic link failed!",
+    );
+
+    return {
+      message: response.message,
     };
   }
 
