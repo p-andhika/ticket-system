@@ -18,7 +18,6 @@ export const createUseSignInForm = (
         password: "",
       },
       validators: {
-        // onChange: signInSchema,
         onSubmit: signInSchema,
       },
       onSubmit: async ({ value }) => {
@@ -31,8 +30,6 @@ export const createUseSignInForm = (
           });
 
           setUser(session.user);
-
-          return { success: true };
         } catch (error) {
           const errorMessage =
             error instanceof Error ? error.message : "Signin failed";
