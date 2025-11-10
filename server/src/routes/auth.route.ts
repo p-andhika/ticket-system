@@ -27,6 +27,19 @@ export default function authRoute(app: AppApi) {
         const user = response.data.user;
         const { hashed_token, verification_type } = response.data.properties;
 
+        if (verification_type === "signup") {
+          await supabase.auth.admin.deleteUser(user.id);
+          return c.json({
+            data: {
+              message: null,
+            },
+            error: {
+              status: 400,
+              code: "invalid_credentials",
+            },
+          });
+        }
+
         const constructedLink = new URL(
           `/api/v1/auth/verify-otp?hashed_token=${hashed_token}`,
           c.req.url,
@@ -50,19 +63,6 @@ Building Production-Grade Web Applications with Supabase
 David Lorenz
 This material may be protected by copyright.`,
         });
-
-        if (verification_type === "signup") {
-          await supabase.auth.admin.deleteUser(user.id);
-          return c.json({
-            data: {
-              message: null,
-            },
-            error: {
-              status: 400,
-              code: "invalid_credentials",
-            },
-          });
-        }
       }
 
       return c.json({
