@@ -41,8 +41,8 @@ export default function authRoute(app: AppApi) {
         }
 
         const constructedLink = new URL(
-          `/api/v1/auth/verify-otp?hashed_token=${hashed_token}`,
-          c.req.url,
+          `/verify-otp?hashed_token=${hashed_token}`,
+          c.req.header("Origin"),
         );
 
         const transporter = nodemailer.createTransport({
@@ -54,14 +54,13 @@ export default function authRoute(app: AppApi) {
           from: "Your Company <your@mail.whatever>",
           to: body.email,
           subject: "Magic Link",
-          html: `“<h1>Hi there, this is a custom magic link email!</h1>
-  <p>Click <a href="${constructedLink.toString()}">here</a> to log 
-    in.</p>”
+          html: `<h1>Hi there, this is a custom magic link email!</h1>
+                  <p>Click <a href="${constructedLink.toString()}">here</a> to log in.</p>
 
-Excerpt From
-Building Production-Grade Web Applications with Supabase
-David Lorenz
-This material may be protected by copyright.`,
+                  Excerpt From
+                  Building Production-Grade Web Applications with Supabase
+                  David Lorenz
+                  This material may be protected by copyright.`,
         });
       }
 
