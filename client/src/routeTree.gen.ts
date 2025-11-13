@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as PublicRouteImport } from './routes/_public'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as PublicVerifyOtpRouteImport } from './routes/_public/verify-otp'
 import { Route as PublicSignupRouteImport } from './routes/_public/signup'
 import { Route as PublicSigninRouteImport } from './routes/_public/signin'
 import { Route as PublicForgotPasswordRouteImport } from './routes/_public/forgot-password'
@@ -32,6 +33,11 @@ const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AuthenticatedRoute,
+} as any)
+const PublicVerifyOtpRoute = PublicVerifyOtpRouteImport.update({
+  id: '/verify-otp',
+  path: '/verify-otp',
+  getParentRoute: () => PublicRoute,
 } as any)
 const PublicSignupRoute = PublicSignupRouteImport.update({
   id: '/signup',
@@ -74,6 +80,7 @@ export interface FileRoutesByFullPath {
   '/forgot-password': typeof PublicForgotPasswordRoute
   '/signin': typeof PublicSigninRoute
   '/signup': typeof PublicSignupRoute
+  '/verify-otp': typeof PublicVerifyOtpRoute
   '/': typeof AuthenticatedIndexRoute
   '/post': typeof AuthenticatedPostIndexRoute
   '/ticket': typeof AuthenticatedTicketIndexRoute
@@ -84,6 +91,7 @@ export interface FileRoutesByTo {
   '/forgot-password': typeof PublicForgotPasswordRoute
   '/signin': typeof PublicSigninRoute
   '/signup': typeof PublicSignupRoute
+  '/verify-otp': typeof PublicVerifyOtpRoute
   '/': typeof AuthenticatedIndexRoute
   '/post': typeof AuthenticatedPostIndexRoute
   '/ticket': typeof AuthenticatedTicketIndexRoute
@@ -97,6 +105,7 @@ export interface FileRoutesById {
   '/_public/forgot-password': typeof PublicForgotPasswordRoute
   '/_public/signin': typeof PublicSigninRoute
   '/_public/signup': typeof PublicSignupRoute
+  '/_public/verify-otp': typeof PublicVerifyOtpRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/_authenticated/post/': typeof AuthenticatedPostIndexRoute
   '/_authenticated/ticket/': typeof AuthenticatedTicketIndexRoute
@@ -109,6 +118,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/signin'
     | '/signup'
+    | '/verify-otp'
     | '/'
     | '/post'
     | '/ticket'
@@ -119,6 +129,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/signin'
     | '/signup'
+    | '/verify-otp'
     | '/'
     | '/post'
     | '/ticket'
@@ -131,6 +142,7 @@ export interface FileRouteTypes {
     | '/_public/forgot-password'
     | '/_public/signin'
     | '/_public/signup'
+    | '/_public/verify-otp'
     | '/_authenticated/'
     | '/_authenticated/post/'
     | '/_authenticated/ticket/'
@@ -165,6 +177,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
+    }
+    '/_public/verify-otp': {
+      id: '/_public/verify-otp'
+      path: '/verify-otp'
+      fullPath: '/verify-otp'
+      preLoaderRoute: typeof PublicVerifyOtpRouteImport
+      parentRoute: typeof PublicRoute
     }
     '/_public/signup': {
       id: '/_public/signup'
@@ -242,12 +261,14 @@ interface PublicRouteChildren {
   PublicForgotPasswordRoute: typeof PublicForgotPasswordRoute
   PublicSigninRoute: typeof PublicSigninRoute
   PublicSignupRoute: typeof PublicSignupRoute
+  PublicVerifyOtpRoute: typeof PublicVerifyOtpRoute
 }
 
 const PublicRouteChildren: PublicRouteChildren = {
   PublicForgotPasswordRoute: PublicForgotPasswordRoute,
   PublicSigninRoute: PublicSigninRoute,
   PublicSignupRoute: PublicSignupRoute,
+  PublicVerifyOtpRoute: PublicVerifyOtpRoute,
 }
 
 const PublicRouteWithChildren =

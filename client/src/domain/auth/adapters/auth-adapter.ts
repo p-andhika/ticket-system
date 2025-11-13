@@ -12,6 +12,7 @@ import type { HttpClient } from "@/lib/types/http-client";
 export type AuthAdapter = {
   signUp(credentials: SignUpCredentials): Promise<User>;
   magicLink(email: string): Promise<{ message: string }>;
+  verifyOtp(hashedToken: string): Promise<SignInResponse>;
   signIn(credentials: SignInCredentials): Promise<SignInResponse>;
   signOut(): Promise<SignOutResponse>;
 };

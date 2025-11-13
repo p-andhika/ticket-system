@@ -22,6 +22,10 @@ import {
   createUseSignUpForm,
   type UseSignUpForm,
 } from "@/domain/auth/use-cases/use-signup-form";
+import {
+  createUseVerifyOtp,
+  type UseVerifyOtp,
+} from "@/domain/auth/use-cases/use-verify-otp";
 import { createHttpClient } from "@/lib/adapters/fetch-http-client";
 import { QueryClient } from "@tanstack/react-query";
 
@@ -53,6 +57,7 @@ export type AuthDependencies = {
   useCases: {
     useSignUpForm: UseSignUpForm;
     useMagicLink: UseMagicLink;
+    useVerifyOtp: UseVerifyOtp;
     useSignInForm: UseSignInForm;
     useSignOut: UseSignOut;
   };
@@ -74,6 +79,7 @@ export const createAuthDependencies = (): AuthDependencies => {
   // Create use cases (orchestration).
   const useSignUpForm = createUseSignUpForm(adapter);
   const useMagicLink = createUseMagicLink(adapter);
+  const useVerifyOtp = createUseVerifyOtp(adapter, repository);
   const useSignInForm = createUseSignInForm(adapter, repository);
   const useSignOut = createUseSignOut(adapter, repository);
 
@@ -84,6 +90,7 @@ export const createAuthDependencies = (): AuthDependencies => {
     useCases: {
       useSignUpForm,
       useMagicLink,
+      useVerifyOtp,
       useSignInForm,
       useSignOut,
     },
