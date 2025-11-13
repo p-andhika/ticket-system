@@ -54,6 +54,23 @@ class AuthAdapterImpl implements AuthAdapter {
     };
   }
 
+  async verifyOtp(hashedToken: string): Promise<SignInResponse> {
+    const response = await requestApiData<SignInResponse>(
+      () =>
+        this.httpClient.post<SignInResponse>("/auth/verify-otp", {
+          hashedToken,
+        }),
+      "Verify OTP failed!",
+    );
+
+    return {
+      user: response.user,
+      accessToken: response.accessToken,
+      expiresAt: response.expiresAt,
+      refreshToken: response.refreshToken,
+    };
+  }
+
   async signIn(credentials: SignInCredentials): Promise<SignInResponse> {
     const response = await requestApiData<SignInResponse>(
       () =>
