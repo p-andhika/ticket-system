@@ -27,6 +27,7 @@
     "@hono/vite-build": "^1.1.0",
     "@hono/vite-dev-server": "^0.17.0",
     "@types/node": "^20.11.17",
+    "@types/nodemailer": "^7.0.3",
     "eslint": "^9.33.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",

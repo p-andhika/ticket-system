@@ -1,6 +1,6 @@
+import { sendMail } from "@/lib/send-mail";
 import { AppApi } from "@/lib/types";
 import { getSupabase } from "@/middlewares/auth.middleware";
-import nodemailer from "nodemailer";
 
 export default function authRoute(app: AppApi) {
   app
@@ -40,27 +40,10 @@ export default function authRoute(app: AppApi) {
           });
         }
 
-        const constructedLink = new URL(
-          `/verify-otp?hashed_token=${hashed_token}`,
-          c.req.header("Origin"),
-        );
-
-        const transporter = nodemailer.createTransport({
-          host: "localhost",
-          port: 54325,
-        });
-
-        await transporter.sendMail({
-          from: "Your Company <your@mail.whatever>",
-          to: body.email,
-          subject: "Magic Link",
-          html: `<h1>Hi there, this is a custom magic link email!</h1>
-                  <p>Click <a href="${constructedLink.toString()}">here</a> to log in.</p>
-
-                  Excerpt From
-                  Building Production-Grade Web Applications with Supabase
-                  David Lorenz
-                  This material may be protected by copyright.`,
+        sendMail({
+          hashed_token,
+          origin: c.req.header("Origin") ?? "",
+          recipient: body.email,
         });
       }
 
