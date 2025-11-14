@@ -12,6 +12,7 @@ import type { HttpClient } from "@/lib/types/http-client";
 export type AuthAdapter = {
   signUp(credentials: SignUpCredentials): Promise<User>;
   magicLink(email: string): Promise<{ message: string }>;
+  forgotPassword(email: string): Promise<{ message: string }>;
   verifyOtp(hashedToken: string): Promise<SignInResponse>;
   signIn(credentials: SignInCredentials): Promise<SignInResponse>;
   signOut(): Promise<SignOutResponse>;
@@ -48,6 +49,20 @@ class AuthAdapterImpl implements AuthAdapter {
           email,
         }),
       "Magic link failed!",
+    );
+
+    return {
+      message: response.message,
+    };
+  }
+
+  async forgotPassword(email: string): Promise<{ message: string }> {
+    const response = await requestApiData<{ message: string }>(
+      () =>
+        this.httpClient.post("/auth/forgot-password", {
+          email,
+        }),
+      "Fogot password link failed!",
     );
 
     return {
