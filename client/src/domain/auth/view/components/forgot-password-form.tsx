@@ -7,9 +7,9 @@ import { toast } from "sonner";
 
 export const ForgotPasswordForm = () => {
   const { useCases } = useDependenciesStore((state) => state.authDependencies);
-  const { useMagicLink } = useCases;
+  const { useForgotPassword } = useCases;
 
-  const { form, isSubmitting, error } = useMagicLink();
+  const { form, isSubmitting, error } = useForgotPassword();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();

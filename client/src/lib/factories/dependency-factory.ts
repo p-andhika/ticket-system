@@ -7,6 +7,10 @@ import {
   type AuthRepository,
 } from "@/domain/auth/repositories/auth-repository";
 import {
+  createUseForgotPassword,
+  type UseForgotPassword,
+} from "@/domain/auth/use-cases/use-forgot-password";
+import {
   createUseMagicLink,
   type UseMagicLink,
 } from "@/domain/auth/use-cases/use-magic-link";
@@ -57,6 +61,7 @@ export type AuthDependencies = {
   useCases: {
     useSignUpForm: UseSignUpForm;
     useMagicLink: UseMagicLink;
+    useForgotPassword: UseForgotPassword;
     useVerifyOtp: UseVerifyOtp;
     useSignInForm: UseSignInForm;
     useSignOut: UseSignOut;
@@ -79,6 +84,7 @@ export const createAuthDependencies = (): AuthDependencies => {
   // Create use cases (orchestration).
   const useSignUpForm = createUseSignUpForm(adapter);
   const useMagicLink = createUseMagicLink(adapter);
+  const useForgotPassword = createUseForgotPassword(adapter);
   const useVerifyOtp = createUseVerifyOtp(adapter, repository);
   const useSignInForm = createUseSignInForm(adapter, repository);
   const useSignOut = createUseSignOut(adapter, repository);
@@ -90,6 +96,7 @@ export const createAuthDependencies = (): AuthDependencies => {
     useCases: {
       useSignUpForm,
       useMagicLink,
+      useForgotPassword,
       useVerifyOtp,
       useSignInForm,
       useSignOut,
