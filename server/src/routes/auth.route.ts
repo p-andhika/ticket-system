@@ -41,6 +41,7 @@ export default function authRoute(app: AppApi) {
         }
 
         sendMail({
+          type: "magicLink",
           hashed_token,
           origin: c.req.header("Origin") ?? "",
           recipient: body.email,
@@ -63,7 +64,18 @@ export default function authRoute(app: AppApi) {
         type: "recovery",
       });
 
-      console.log("==========", response);
+      if (response.data.properties) {
+        const { hashed_token } = response.data.properties;
+
+        sendMail({
+          type: "forgotPassword",
+          hashed_token,
+          origin: c.req.header("Origin") ?? "",
+          recipient: body.email,
+        });
+      }
+
+      return c.json(response);
     })
 
     .post("/verify-otp", async (c) => {

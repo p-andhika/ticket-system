@@ -4,11 +4,17 @@ type Params = {
   hashed_token: string;
   origin: string;
   recipient: string;
+  type: "magicLink" | "forgotPassword";
 };
 
-export const sendMail = async ({ hashed_token, origin, recipient }: Params) => {
+export const sendMail = async ({
+  hashed_token,
+  origin,
+  recipient,
+  type,
+}: Params) => {
   const constructedLink = new URL(
-    `/verify-otp?hashed_token=${hashed_token}`,
+    `${type === "magicLink" ? "/verify-otp" : "/forgot-password"}?hashed_token=${hashed_token}`,
     origin,
   );
 
@@ -21,8 +27,8 @@ export const sendMail = async ({ hashed_token, origin, recipient }: Params) => {
     from: "Your Company <your@mail.whatever>",
     to: recipient,
     subject: "Magic Link",
-    html: `<h1>Hi there, this is a custom magic link email!</h1>
-    <p>Click <a href="${constructedLink.toString()}">here</a> to log in.</p>
+    html: `<h1>Hi there, this is a custom ${type === "magicLink" ? "magic" : "forgot password"} link email!</h1>
+    <p>Click <a href="${constructedLink.toString()}">here</a> to ${type === "magicLink" ? "log in" : "change your password"}.</p>
 
     Excerpt From
     Building Production-Grade Web Applications with Supabase
