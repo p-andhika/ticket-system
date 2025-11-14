@@ -73,6 +73,13 @@ export default function authRoute(app: AppApi) {
           origin: c.req.header("Origin") ?? "",
           recipient: body.email,
         });
+
+        return c.json({
+          data: {
+            message: "Forgot password link sent!",
+          },
+          error: null,
+        });
       }
 
       return c.json(response);
