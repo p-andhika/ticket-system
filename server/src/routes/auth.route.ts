@@ -55,6 +55,17 @@ export default function authRoute(app: AppApi) {
       });
     })
 
+    .post("/forgot-password", async (c) => {
+      const body = await c.req.json();
+      const supabase = getSupabase(c);
+      const response = await supabase.auth.admin.generateLink({
+        email: body.email,
+        type: "recovery",
+      });
+
+      console.log("==========", response);
+    })
+
     .post("/verify-otp", async (c) => {
       const body = await c.req.json();
       const supabase = getSupabase(c);
