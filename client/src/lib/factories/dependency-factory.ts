@@ -54,7 +54,6 @@ export const createQueryClient = (): QueryClient => {
 // ============================================================================
 // AUTH DEPENDENCIES
 // ============================================================================
-
 export type AuthDependencies = {
   adapter: AuthAdapter;
   repository: AuthRepository;

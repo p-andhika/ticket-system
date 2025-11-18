@@ -15,6 +15,7 @@ import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/
 import { Route as PublicVerifyOtpRouteImport } from './routes/_public/verify-otp'
 import { Route as PublicSignupRouteImport } from './routes/_public/signup'
 import { Route as PublicSigninRouteImport } from './routes/_public/signin'
+import { Route as PublicSetPasswordRouteImport } from './routes/_public/set-password'
 import { Route as PublicForgotPasswordRouteImport } from './routes/_public/forgot-password'
 import { Route as AuthenticatedUserIndexRouteImport } from './routes/_authenticated/user/index'
 import { Route as AuthenticatedTodoIndexRouteImport } from './routes/_authenticated/todo/index'
@@ -49,6 +50,11 @@ const PublicSigninRoute = PublicSigninRouteImport.update({
   path: '/signin',
   getParentRoute: () => PublicRoute,
 } as any)
+const PublicSetPasswordRoute = PublicSetPasswordRouteImport.update({
+  id: '/set-password',
+  path: '/set-password',
+  getParentRoute: () => PublicRoute,
+} as any)
 const PublicForgotPasswordRoute = PublicForgotPasswordRouteImport.update({
   id: '/forgot-password',
   path: '/forgot-password',
@@ -78,6 +84,7 @@ const AuthenticatedPostIndexRoute = AuthenticatedPostIndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/forgot-password': typeof PublicForgotPasswordRoute
+  '/set-password': typeof PublicSetPasswordRoute
   '/signin': typeof PublicSigninRoute
   '/signup': typeof PublicSignupRoute
   '/verify-otp': typeof PublicVerifyOtpRoute
@@ -89,6 +96,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/forgot-password': typeof PublicForgotPasswordRoute
+  '/set-password': typeof PublicSetPasswordRoute
   '/signin': typeof PublicSigninRoute
   '/signup': typeof PublicSignupRoute
   '/verify-otp': typeof PublicVerifyOtpRoute
@@ -103,6 +111,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/_public': typeof PublicRouteWithChildren
   '/_public/forgot-password': typeof PublicForgotPasswordRoute
+  '/_public/set-password': typeof PublicSetPasswordRoute
   '/_public/signin': typeof PublicSigninRoute
   '/_public/signup': typeof PublicSignupRoute
   '/_public/verify-otp': typeof PublicVerifyOtpRoute
@@ -116,6 +125,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/forgot-password'
+    | '/set-password'
     | '/signin'
     | '/signup'
     | '/verify-otp'
@@ -127,6 +137,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/forgot-password'
+    | '/set-password'
     | '/signin'
     | '/signup'
     | '/verify-otp'
@@ -140,6 +151,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/_public'
     | '/_public/forgot-password'
+    | '/_public/set-password'
     | '/_public/signin'
     | '/_public/signup'
     | '/_public/verify-otp'
@@ -197,6 +209,13 @@ declare module '@tanstack/react-router' {
       path: '/signin'
       fullPath: '/signin'
       preLoaderRoute: typeof PublicSigninRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/set-password': {
+      id: '/_public/set-password'
+      path: '/set-password'
+      fullPath: '/set-password'
+      preLoaderRoute: typeof PublicSetPasswordRouteImport
       parentRoute: typeof PublicRoute
     }
     '/_public/forgot-password': {
@@ -259,6 +278,7 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
 
 interface PublicRouteChildren {
   PublicForgotPasswordRoute: typeof PublicForgotPasswordRoute
+  PublicSetPasswordRoute: typeof PublicSetPasswordRoute
   PublicSigninRoute: typeof PublicSigninRoute
   PublicSignupRoute: typeof PublicSignupRoute
   PublicVerifyOtpRoute: typeof PublicVerifyOtpRoute
@@ -266,6 +286,7 @@ interface PublicRouteChildren {
 
 const PublicRouteChildren: PublicRouteChildren = {
   PublicForgotPasswordRoute: PublicForgotPasswordRoute,
+  PublicSetPasswordRoute: PublicSetPasswordRoute,
   PublicSigninRoute: PublicSigninRoute,
   PublicSignupRoute: PublicSignupRoute,
   PublicVerifyOtpRoute: PublicVerifyOtpRoute,
