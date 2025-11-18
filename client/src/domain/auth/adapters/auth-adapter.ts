@@ -13,6 +13,7 @@ export type AuthAdapter = {
   signUp(credentials: SignUpCredentials): Promise<User>;
   magicLink(email: string): Promise<{ message: string }>;
   forgotPassword(email: string): Promise<{ message: string }>;
+  resetPassword(newPassword: string): Promise<{ message: string }>;
   verifyOtp(hashedToken: string): Promise<SignInResponse>;
   signIn(credentials: SignInCredentials): Promise<SignInResponse>;
   signOut(): Promise<SignOutResponse>;
@@ -63,6 +64,20 @@ class AuthAdapterImpl implements AuthAdapter {
           email,
         }),
       "Fogot password link failed!",
+    );
+
+    return {
+      message: response.message,
+    };
+  }
+
+  async resetPassword(newPassword: string): Promise<{ message: string }> {
+    const response = await requestApiData<{ message: string }>(
+      () =>
+        this.httpClient.post("/auth/reset-password", {
+          newPassword,
+        }),
+      "Reset password link failed!",
     );
 
     return {
