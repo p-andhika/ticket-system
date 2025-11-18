@@ -93,7 +93,13 @@ export default function authRoute(app: AppApi) {
       });
 
       if (response.error) {
-        return c.json(response);
+        return c.json({
+          ...response,
+          error: {
+            ...response.error,
+            code: "invalid_token",
+          },
+        });
       }
 
       return c.json({

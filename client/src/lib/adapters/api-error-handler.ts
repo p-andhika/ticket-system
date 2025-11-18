@@ -61,7 +61,7 @@ export const API_ERROR_CODE_MESSAGES: Record<string, string> = {
 };
 
 export function checkResponseError(responseData: ErrorResponse): void {
-  if (responseData?.code) {
+  if (responseData?.status) {
     const code = responseData.code;
 
     const mappedCodeMessage = code ? API_ERROR_CODE_MESSAGES[code] : undefined;

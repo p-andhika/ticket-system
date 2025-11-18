@@ -29,6 +29,7 @@ export const createUseSignUpForm = (adapter: AuthAdapter) => {
           const errorMessage =
             error instanceof Error ? error.message : "Signup failed!";
 
+          setSubmissionError(errorMessage);
           throw new Error(errorMessage);
         }
       },
