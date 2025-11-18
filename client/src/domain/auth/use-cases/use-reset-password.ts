@@ -37,3 +37,5 @@ export const createUseResetPassword = (adapter: AuthAdapter) => {
     };
   };
 };
+
+export type UseResetPassword = ReturnType<typeof createUseResetPassword>;

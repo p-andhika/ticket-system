@@ -15,6 +15,10 @@ import {
   type UseMagicLink,
 } from "@/domain/auth/use-cases/use-magic-link";
 import {
+  createUseResetPassword,
+  type UseResetPassword,
+} from "@/domain/auth/use-cases/use-reset-password";
+import {
   createUseSignInForm,
   type UseSignInForm,
 } from "@/domain/auth/use-cases/use-signin-form";
@@ -61,6 +65,7 @@ export type AuthDependencies = {
     useSignUpForm: UseSignUpForm;
     useMagicLink: UseMagicLink;
     useForgotPassword: UseForgotPassword;
+    useResetPassword: UseResetPassword;
     useVerifyOtp: UseVerifyOtp;
     useSignInForm: UseSignInForm;
     useSignOut: UseSignOut;
@@ -84,6 +89,7 @@ export const createAuthDependencies = (): AuthDependencies => {
   const useSignUpForm = createUseSignUpForm(adapter);
   const useMagicLink = createUseMagicLink(adapter);
   const useForgotPassword = createUseForgotPassword(adapter);
+  const useResetPassword = createUseResetPassword(adapter);
   const useVerifyOtp = createUseVerifyOtp(adapter, repository);
   const useSignInForm = createUseSignInForm(adapter, repository);
   const useSignOut = createUseSignOut(adapter, repository);
@@ -96,6 +102,7 @@ export const createAuthDependencies = (): AuthDependencies => {
       useSignUpForm,
       useMagicLink,
       useForgotPassword,
+      useResetPassword,
       useVerifyOtp,
       useSignInForm,
       useSignOut,
