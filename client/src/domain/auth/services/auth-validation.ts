@@ -24,6 +24,11 @@ export const forgotPasswordSchema = z.object({
   email: emailSchema,
 });
 
+export const resetPasswordSchema = z.object({
+  newPassword: passwordSchema,
+  confirmPassword: passwordSchema,
+});
+
 export const signUpSchema = z.object({
   email: emailSchema,
   password: passwordSchema,
