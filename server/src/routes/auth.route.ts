@@ -92,7 +92,15 @@ export default function authRoute(app: AppApi) {
         password: body.newPassword,
       });
 
-      return c.json(response);
+      if (response.error) {
+        return c.json(response);
+      }
+
+      return c.json({
+        data: {
+          message: "Reset password success!",
+        },
+      });
     })
 
     .post("/verify-otp", async (c) => {
