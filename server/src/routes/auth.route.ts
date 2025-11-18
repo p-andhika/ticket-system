@@ -85,6 +85,16 @@ export default function authRoute(app: AppApi) {
       return c.json(response);
     })
 
+    .post("/reset-password", async (c) => {
+      const body = await c.req.json();
+      const supabase = getSupabase(c);
+      const response = await supabase.auth.updateUser({
+        password: body.newPassword,
+      });
+
+      return c.json(response);
+    })
+
     .post("/verify-otp", async (c) => {
       const body = await c.req.json();
       const supabase = getSupabase(c);
