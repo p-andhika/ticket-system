@@ -31,6 +31,7 @@ export const API_ERROR_CODE_MESSAGES: Record<string, string> = {
   user_not_found: "User not found",
   weak_password: "Password is too weak",
   email_not_confirmed: "Please confirm your email first",
+  same_password: "New password should be different from the old password",
 
   // Account errors
   account_locked: "Account is locked or suspended",

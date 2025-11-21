@@ -14,7 +14,7 @@ export const sendMail = async ({
   type,
 }: Params) => {
   const constructedLink = new URL(
-    `${type === "magicLink" ? "/verify-otp" : "/reset-password"}?hashed_token=${hashed_token}`,
+    `/verify-otp?hashed_token=${hashed_token}&type=${type === "magicLink" ? "magic-link" : "reset-password"}`,
     origin,
   );
 

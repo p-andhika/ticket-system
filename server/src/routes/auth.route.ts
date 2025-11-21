@@ -92,12 +92,14 @@ export default function authRoute(app: AppApi) {
         password: body.newPassword,
       });
 
+      console.log("++++++=====", response.error);
+
       if (response.error) {
         return c.json({
           ...response,
           error: {
             ...response.error,
-            code: "invalid_token",
+            code: response.error.code ? response.error.code : "invalid_token",
           },
         });
       }

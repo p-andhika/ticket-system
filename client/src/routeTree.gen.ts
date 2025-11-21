@@ -15,12 +15,12 @@ import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/
 import { Route as PublicVerifyOtpRouteImport } from './routes/_public/verify-otp'
 import { Route as PublicSignupRouteImport } from './routes/_public/signup'
 import { Route as PublicSigninRouteImport } from './routes/_public/signin'
-import { Route as PublicResetPasswordRouteImport } from './routes/_public/reset-password'
 import { Route as PublicForgotPasswordRouteImport } from './routes/_public/forgot-password'
 import { Route as AuthenticatedUserIndexRouteImport } from './routes/_authenticated/user/index'
 import { Route as AuthenticatedTodoIndexRouteImport } from './routes/_authenticated/todo/index'
 import { Route as AuthenticatedTicketIndexRouteImport } from './routes/_authenticated/ticket/index'
 import { Route as AuthenticatedPostIndexRouteImport } from './routes/_authenticated/post/index'
+import { Route as AuthenticatedSettingsResetPasswordRouteImport } from './routes/_authenticated/settings/reset-password'
 
 const PublicRoute = PublicRouteImport.update({
   id: '/_public',
@@ -50,11 +50,6 @@ const PublicSigninRoute = PublicSigninRouteImport.update({
   path: '/signin',
   getParentRoute: () => PublicRoute,
 } as any)
-const PublicResetPasswordRoute = PublicResetPasswordRouteImport.update({
-  id: '/reset-password',
-  path: '/reset-password',
-  getParentRoute: () => PublicRoute,
-} as any)
 const PublicForgotPasswordRoute = PublicForgotPasswordRouteImport.update({
   id: '/forgot-password',
   path: '/forgot-password',
@@ -81,14 +76,20 @@ const AuthenticatedPostIndexRoute = AuthenticatedPostIndexRouteImport.update({
   path: '/post/',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedSettingsResetPasswordRoute =
+  AuthenticatedSettingsResetPasswordRouteImport.update({
+    id: '/settings/reset-password',
+    path: '/settings/reset-password',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/forgot-password': typeof PublicForgotPasswordRoute
-  '/reset-password': typeof PublicResetPasswordRoute
   '/signin': typeof PublicSigninRoute
   '/signup': typeof PublicSignupRoute
   '/verify-otp': typeof PublicVerifyOtpRoute
   '/': typeof AuthenticatedIndexRoute
+  '/settings/reset-password': typeof AuthenticatedSettingsResetPasswordRoute
   '/post': typeof AuthenticatedPostIndexRoute
   '/ticket': typeof AuthenticatedTicketIndexRoute
   '/todo': typeof AuthenticatedTodoIndexRoute
@@ -96,11 +97,11 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/forgot-password': typeof PublicForgotPasswordRoute
-  '/reset-password': typeof PublicResetPasswordRoute
   '/signin': typeof PublicSigninRoute
   '/signup': typeof PublicSignupRoute
   '/verify-otp': typeof PublicVerifyOtpRoute
   '/': typeof AuthenticatedIndexRoute
+  '/settings/reset-password': typeof AuthenticatedSettingsResetPasswordRoute
   '/post': typeof AuthenticatedPostIndexRoute
   '/ticket': typeof AuthenticatedTicketIndexRoute
   '/todo': typeof AuthenticatedTodoIndexRoute
@@ -111,11 +112,11 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/_public': typeof PublicRouteWithChildren
   '/_public/forgot-password': typeof PublicForgotPasswordRoute
-  '/_public/reset-password': typeof PublicResetPasswordRoute
   '/_public/signin': typeof PublicSigninRoute
   '/_public/signup': typeof PublicSignupRoute
   '/_public/verify-otp': typeof PublicVerifyOtpRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/settings/reset-password': typeof AuthenticatedSettingsResetPasswordRoute
   '/_authenticated/post/': typeof AuthenticatedPostIndexRoute
   '/_authenticated/ticket/': typeof AuthenticatedTicketIndexRoute
   '/_authenticated/todo/': typeof AuthenticatedTodoIndexRoute
@@ -125,11 +126,11 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/forgot-password'
-    | '/reset-password'
     | '/signin'
     | '/signup'
     | '/verify-otp'
     | '/'
+    | '/settings/reset-password'
     | '/post'
     | '/ticket'
     | '/todo'
@@ -137,11 +138,11 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/forgot-password'
-    | '/reset-password'
     | '/signin'
     | '/signup'
     | '/verify-otp'
     | '/'
+    | '/settings/reset-password'
     | '/post'
     | '/ticket'
     | '/todo'
@@ -151,11 +152,11 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/_public'
     | '/_public/forgot-password'
-    | '/_public/reset-password'
     | '/_public/signin'
     | '/_public/signup'
     | '/_public/verify-otp'
     | '/_authenticated/'
+    | '/_authenticated/settings/reset-password'
     | '/_authenticated/post/'
     | '/_authenticated/ticket/'
     | '/_authenticated/todo/'
@@ -211,13 +212,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicSigninRouteImport
       parentRoute: typeof PublicRoute
     }
-    '/_public/reset-password': {
-      id: '/_public/reset-password'
-      path: '/reset-password'
-      fullPath: '/reset-password'
-      preLoaderRoute: typeof PublicResetPasswordRouteImport
-      parentRoute: typeof PublicRoute
-    }
     '/_public/forgot-password': {
       id: '/_public/forgot-password'
       path: '/forgot-password'
@@ -253,11 +247,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPostIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/settings/reset-password': {
+      id: '/_authenticated/settings/reset-password'
+      path: '/settings/reset-password'
+      fullPath: '/settings/reset-password'
+      preLoaderRoute: typeof AuthenticatedSettingsResetPasswordRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
   }
 }
 
 interface AuthenticatedRouteChildren {
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedSettingsResetPasswordRoute: typeof AuthenticatedSettingsResetPasswordRoute
   AuthenticatedPostIndexRoute: typeof AuthenticatedPostIndexRoute
   AuthenticatedTicketIndexRoute: typeof AuthenticatedTicketIndexRoute
   AuthenticatedTodoIndexRoute: typeof AuthenticatedTodoIndexRoute
@@ -266,6 +268,8 @@ interface AuthenticatedRouteChildren {
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedSettingsResetPasswordRoute:
+    AuthenticatedSettingsResetPasswordRoute,
   AuthenticatedPostIndexRoute: AuthenticatedPostIndexRoute,
   AuthenticatedTicketIndexRoute: AuthenticatedTicketIndexRoute,
   AuthenticatedTodoIndexRoute: AuthenticatedTodoIndexRoute,
@@ -278,7 +282,6 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
 
 interface PublicRouteChildren {
   PublicForgotPasswordRoute: typeof PublicForgotPasswordRoute
-  PublicResetPasswordRoute: typeof PublicResetPasswordRoute
   PublicSigninRoute: typeof PublicSigninRoute
   PublicSignupRoute: typeof PublicSignupRoute
   PublicVerifyOtpRoute: typeof PublicVerifyOtpRoute
@@ -286,7 +289,6 @@ interface PublicRouteChildren {
 
 const PublicRouteChildren: PublicRouteChildren = {
   PublicForgotPasswordRoute: PublicForgotPasswordRoute,
-  PublicResetPasswordRoute: PublicResetPasswordRoute,
   PublicSigninRoute: PublicSigninRoute,
   PublicSignupRoute: PublicSignupRoute,
   PublicVerifyOtpRoute: PublicVerifyOtpRoute,

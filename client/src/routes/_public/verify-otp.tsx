@@ -7,6 +7,7 @@ import { z } from "zod";
 
 const verifyOtpSchema = z.object({
   hashed_token: z.string().min(1, "Missing or invalid token"),
+  type: z.enum(["magic-link", "reset-password"]),
 });
 
 export const Route = createFileRoute("/_public/verify-otp")({
@@ -18,21 +19,21 @@ function RouteComponent() {
   const { useCases } = useDependenciesStore((state) => state.authDependencies);
   const { useVerifyOtp } = useCases;
   const { verifyOtp } = useVerifyOtp();
-  const { hashed_token } = Route.useSearch();
+  const { hashed_token, type } = Route.useSearch();
   const navigate = useNavigate();
   const hasRun = useRef(false);
 
   const handleVerifyOtp = useCallback(async () => {
     try {
       await verifyOtp(hashed_token);
-      navigate({ to: "/" });
+      navigate({ to: type == "magic-link" ? "/" : "/settings/reset-password" });
       toast.success("Signin in success!");
     } catch (error) {
       navigate({ to: "/signin" });
       toast.error(String(error));
       console.error(error);
     }
-  }, [hashed_token, navigate, verifyOtp]);
+  }, [hashed_token, type, navigate, verifyOtp]);
 
   useEffect(() => {
     if (hasRun.current) return;
